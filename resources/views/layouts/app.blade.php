@@ -24,8 +24,8 @@
                 {{ $slot }}
             </main>
         </div>
-        <footer style="text-align:center; padding:20px; color:#94a3b8; font-size:13px; border-top:1px solid #e2e8f0; background:white;">
-            Grupo 7 UTN &mdash; MoneyTrack
+        <footer class="bg-gray-900 border-t border-gray-800 text-center py-4 px-4">
+            <p class="text-gray-300 text-sm">Grupo 7 TUP- UTN FRRe &mdash; MoneyTrack</p>
         </footer>
     </body>
 </html>

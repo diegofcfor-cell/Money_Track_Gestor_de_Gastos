@@ -106,7 +106,7 @@ body {
     filter: drop-shadow(0 0 6px rgb(255, 222, 35));
 }
 @keyframes caer {
-    0% { transform: translateY(-80px) rotate(0deg); }
+    0% { transform: translateY(0) rotate(0deg); }
     100% { transform: translateY(110vh) rotate(720deg); }
 }
 
@@ -282,14 +282,14 @@ body {
 </div>
 
 <div class="coins-front">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:5%; animation-duration:11s; width:30px;">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:15%; animation-duration:8s; width:22px; animation-delay:2s;">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:28%; animation-duration:13s; width:34px; animation-delay:4s;">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:42%; animation-duration:9s; width:24px; animation-delay:1s;">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:55%; animation-duration:12s; width:32px; animation-delay:3s;">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:68%; animation-duration:10s; width:20px; animation-delay:5s;">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:80%; animation-duration:14s; width:28px; animation-delay:0s;">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:92%; animation-duration:9s; width:26px; animation-delay:2.5s;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:5%; animation-duration:11s; width:30px; top:-10%;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:15%; animation-duration:8s; width:22px; top:-45%;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:28%; animation-duration:13s; width:34px; top:-80%;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:42%; animation-duration:9s; width:24px; top:-25%;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:55%; animation-duration:12s; width:32px; top:-60%;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:68%; animation-duration:10s; width:20px; top:-90%;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:80%; animation-duration:14s; width:28px; top:-5%;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:92%; animation-duration:9s; width:26px; top:-35%;">
 </div>
 
 <div style="position:fixed; z-index:10; top:0; left:0; width:100%; height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; box-sizing:border-box;">
