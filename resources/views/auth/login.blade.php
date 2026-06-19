@@ -104,12 +104,24 @@ body {
     100% { transform: translateY(110vh) rotate(720deg) scale(1.2); }
 }
 
+/* Monedas al frente del card */
+.coins-front {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 30;
+    pointer-events: none;
+    overflow: hidden;
+}
+
 /* Card con glassmorphism */
 .login-card {
     position: relative;
     z-index: 10;
     width: 100%;
-    max-width: 420px;
+    max-width: 480px;
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.97);
     backdrop-filter: blur(20px);
@@ -304,7 +316,9 @@ body {
     <div class="floating-circle"></div>
     <div class="floating-circle"></div>
     <div class="floating-circle"></div>
+</div>
 
+<div class="coins-front">
     <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:8%; animation-duration:12s; width:28px;">
     <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:22%; animation-duration:9s; width:20px; animation-delay:2s;">
     <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:38%; animation-duration:14s; width:32px; animation-delay:4s;">
