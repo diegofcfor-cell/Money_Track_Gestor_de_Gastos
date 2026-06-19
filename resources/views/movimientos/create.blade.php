@@ -46,6 +46,16 @@
                     </select>
                 </div>
 
+                <div id="metaField" style="display:none;">
+                    <label class="form-label">Meta de Ahorro</label>
+                    <select name="meta_ahorro_id" class="form-select">
+                        <option value="">Sin meta asociada</option>
+                        @foreach ($metas as $meta)
+                            <option value="{{ $meta->id }}">{{ $meta->nombre }} (${{ number_format($meta->monto_objetivo, 0) }})</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class="flex items-center gap-3 pt-2">
                     <button type="submit" class="btn-success">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -64,6 +74,14 @@
         const subcategorias = @json($subcategorias);
         const categoriaSelect = document.getElementById('categoria');
         const subcategoriaSelect = document.getElementById('subcategoria');
+        const tipoSelect = document.querySelector('select[name="tipo"]');
+        const metaField = document.getElementById('metaField');
+
+        function toggleMeta() {
+            metaField.style.display = tipoSelect.value === 'ahorro' ? 'block' : 'none';
+        }
+        tipoSelect.addEventListener('change', toggleMeta);
+        toggleMeta();
 
         categoriaSelect.addEventListener('change', function () {
             const categoriaId = this.value;

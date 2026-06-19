@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Movimiento;
 use App\Models\Categoria;
 use App\Models\Subcategoria;
+use App\Models\MetaAhorro;
 use App\Http\Requests\StoreMovimientoRequest;
 use App\Http\Requests\UpdateMovimientoRequest;
 use Illuminate\Http\Request;
@@ -35,8 +36,9 @@ class MovimientoController extends Controller
     {
     	$categorias = Categoria::all();
     	$subcategorias = Subcategoria::all();
+    	$metas = MetaAhorro::where('user_id', auth()->id())->get();
 
-    	return view('movimientos.create', compact('categorias', 'subcategorias'));
+    	return view('movimientos.create', compact('categorias', 'subcategorias', 'metas'));
     }
 
 
@@ -55,8 +57,9 @@ class MovimientoController extends Controller
     		->where('user_id', auth()->id())
     		->firstOrFail();
         $categorias = Categoria::all();
+        $metas = MetaAhorro::where('user_id', auth()->id())->get();
 
-        return view('movimientos.edit', compact('movimiento', 'categorias'));
+        return view('movimientos.edit', compact('movimiento', 'categorias', 'metas'));
     }
 
     public function update(UpdateMovimientoRequest $request, $id)

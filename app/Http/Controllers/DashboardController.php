@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Movimiento;
+use App\Models\Presupuesto;
+use App\Models\MetaAhorro;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -104,6 +106,48 @@ class DashboardController extends Controller
 
         $tasaAhorro = $ingresosMes > 0 ? round(($ahorroMes / $ingresosMes) * 100, 1) : 0;
 
+        $presupuestos = Presupuesto::with('categoria')
+            ->where('user_id', $userId)
+            ->where('mes', now()->month)
+            ->where('año', now()->year)
+            ->get();
+
+        $alertsPresupuesto = [];
+        $gastosDelMes = (clone $query)
+            ->where('tipo', 'egreso')
+            ->whereMonth('fecha', now()->month)
+            ->whereYear('fecha', now()->year)
+            ->get()
+            ->groupBy('categoria_id')
+            ->map(fn($g) => $g->sum('monto'));
+
+        foreach ($presupuestos as $p) {
+            $gastado = $gastosDelMes->get($p->categoria_id, 0);
+            if ($p->limite_mensual > 0) {
+                $porcentaje = ($gastado / $p->limite_mensual) * 100;
+                if ($porcentaje >= 80) {
+                    $alertsPresupuesto[] = (object)[
+                        'categoria' => $p->categoria,
+                        'limite' => $p->limite_mensual,
+                        'gastado' => $gastado,
+                        'porcentaje' => min(round($porcentaje), 100),
+                        'excedido' => $gastado > $p->limite_mensual,
+                    ];
+                }
+            }
+        }
+
+        $metasDashboard = MetaAhorro::where('user_id', $userId)->get()->map(function ($meta) {
+            $progreso = $meta->monto_objetivo > 0 ? min(round(($meta->monto_actual / $meta->monto_objetivo) * 100), 100) : 0;
+            return (object)[
+                'nombre' => $meta->nombre,
+                'monto_actual' => $meta->monto_actual,
+                'monto_objetivo' => $meta->monto_objetivo,
+                'progreso' => $progreso,
+                'completada' => $meta->monto_actual >= $meta->monto_objetivo,
+            ];
+        });
+
         return view('panel', compact(
             'movimientos',
             'totalIngresos', 'totalEgresos', 'totalAhorro', 'saldo',
@@ -113,7 +157,8 @@ class DashboardController extends Controller
             'categoriaMasGastada',
             'egresosPorCategoria',
             'labelsMeses', 'ingresosData', 'egresosData',
-            'saldoEvolucion', 'ahorroPorMes'
+            'saldoEvolucion', 'ahorroPorMes',
+            'alertsPresupuesto', 'metasDashboard'
         ));
     }
 }

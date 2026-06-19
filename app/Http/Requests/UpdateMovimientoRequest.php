@@ -19,6 +19,7 @@ class UpdateMovimientoRequest extends FormRequest
             'fecha'           => 'required|date',
             'categoria_id'    => 'required|exists:categorias,id',
             'subcategoria_id' => 'nullable|exists:subcategorias,id',
+            'meta_ahorro_id'  => 'nullable|exists:metas_ahorro,id',
         ];
     }
 }

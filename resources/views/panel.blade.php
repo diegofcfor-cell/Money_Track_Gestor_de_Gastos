@@ -53,6 +53,55 @@
             </div>
         </div>
 
+        @if (count($alertsPresupuesto) > 0 || $metasDashboard->count() > 0)
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            @if (count($alertsPresupuesto) > 0)
+            <div class="card">
+                <h3 class="card-header">
+                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
+                    Alertas de Presupuesto
+                </h3>
+                @foreach ($alertsPresupuesto as $alert)
+                <div class="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
+                    <div>
+                        <span class="text-sm font-medium text-gray-800">{{ $alert->categoria->nombre }}</span>
+                        <span class="text-xs text-gray-400 ml-2">${{ number_format($alert->gastado, 0) }} / ${{ number_format($alert->limite, 0) }}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-semibold {{ $alert->excedido ? 'text-red-600' : 'text-orange-500' }}">{{ $alert->porcentaje }}%</span>
+                        @if ($alert->excedido)
+                            <span class="badge-expense text-xs">Superado</span>
+                        @else
+                            <span class="text-xs text-orange-500">Por vencer</span>
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            @endif
+            @if ($metasDashboard->count() > 0)
+            <div class="card">
+                <h3 class="card-header">
+                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Metas de Ahorro
+                </h3>
+                @foreach ($metasDashboard as $meta)
+                <div class="mb-3 last:mb-0">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-sm font-medium text-gray-800">{{ $meta->nombre }}</span>
+                        <span class="text-xs text-gray-500">${{ number_format($meta->monto_actual, 0) }} / ${{ number_format($meta->monto_objetivo, 0) }}</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="h-2 rounded-full {{ $meta->completada ? 'bg-emerald-500' : 'bg-blue-500' }}" style="width: {{ $meta->progreso }}%"></div>
+                    </div>
+                    <span class="text-xs text-gray-400">{{ $meta->progreso }}%</span>
+                </div>
+                @endforeach
+            </div>
+            @endif
+        </div>
+        @endif
+
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <div class="card">
                 <h3 class="card-header">
