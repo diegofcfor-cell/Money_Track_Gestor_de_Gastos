@@ -15,7 +15,8 @@ class Movimiento extends Model
         'tipo',
         'monto',
         'fecha',
-        'categoria_id'
+        'categoria_id',
+        'subcategoria_id'
     ];
 
     public $timestamps = false;

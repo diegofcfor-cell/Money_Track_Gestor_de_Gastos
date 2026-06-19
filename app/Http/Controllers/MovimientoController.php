@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Movimiento;
 use App\Models\Categoria;
 use App\Models\Subcategoria;
+use App\Http\Requests\StoreMovimientoRequest;
+use App\Http\Requests\UpdateMovimientoRequest;
 
 class MovimientoController extends Controller
 {
@@ -18,17 +19,11 @@ class MovimientoController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(StoreMovimientoRequest $request)
     {
-        Movimiento::create([
-    		'user_id'      => auth()->id(),
-    		'tipo'         => $request->tipo,
-    		'monto'        => $request->monto,
-    		'fecha'        => $request->fecha,
-    		'categoria_id' => $request->categoria_id,
-		'subcategoria_id' => $request->subcategoria_id
-	]);
-
+        Movimiento::create($request->validated() + [
+            'user_id' => auth()->id(),
+        ]);
 
         return redirect('/dashboard');
     }
@@ -43,10 +38,13 @@ class MovimientoController extends Controller
         return view('movimientos.edit', compact('movimiento', 'categorias'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateMovimientoRequest $request, $id)
     {
-        $movimiento = Movimiento::findOrFail($id);
-        $movimiento->update($request->all());
+        $movimiento = Movimiento::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $movimiento->update($request->validated());
 
         return redirect('/dashboard');
     }
