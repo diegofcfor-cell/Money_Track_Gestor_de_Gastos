@@ -18,9 +18,9 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
+Route::get('/panel', [DashboardController::class, 'index'])
 ->middleware(['auth'])
-->name('dashboard'); // 👈 CLAVE
+->name('panel');
 
 Route::get('/movimientos/pdf', [DashboardController::class, 'pdf'])
     ->middleware(['auth'])

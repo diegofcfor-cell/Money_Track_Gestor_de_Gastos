@@ -101,9 +101,9 @@ body {
 }
 .coin {
     position: absolute;
-    opacity: 0.15;
+    /* opacity: 0.15; */
     animation: caer linear infinite;
-    filter: drop-shadow(0 0 6px rgba(217, 119, 6, 0.3));
+    filter: drop-shadow(0 0 6px rgb(255, 222, 35));
 }
 @keyframes caer {
     0% { transform: translateY(-80px) rotate(0deg); }

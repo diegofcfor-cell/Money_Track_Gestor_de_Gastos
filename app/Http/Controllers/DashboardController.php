@@ -52,7 +52,7 @@ class DashboardController extends Controller
 	})->values();
 
 
-        return view('dashboard', compact(
+        return view('panel', compact(
             'movimientos',
             'totalIngresos',
             'totalEgresos',

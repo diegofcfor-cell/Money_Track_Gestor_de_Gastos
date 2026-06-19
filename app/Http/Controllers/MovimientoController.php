@@ -25,7 +25,7 @@ class MovimientoController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect('/dashboard');
+        return redirect('/panel');
     }
 
     public function edit($id)
@@ -46,7 +46,7 @@ class MovimientoController extends Controller
 
         $movimiento->update($request->validated());
 
-        return redirect('/dashboard');
+        return redirect('/panel');
     }
 
     public function destroy($id)
@@ -58,6 +58,6 @@ class MovimientoController extends Controller
 	$movimiento->delete();
 
 
-        return redirect('/dashboard');
+        return redirect('/panel');
     }
 }

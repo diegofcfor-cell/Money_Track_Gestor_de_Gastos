@@ -50,7 +50,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         Guardar Movimiento
                     </button>
-                    <a href="{{ route('dashboard') }}" class="btn-primary bg-gray-200 text-gray-700 hover:bg-gray-300">
+                    <a href="{{ route('panel') }}" class="btn-primary bg-gray-200 text-gray-700 hover:bg-gray-300">
                         Cancelar
                     </a>
                 </div>
