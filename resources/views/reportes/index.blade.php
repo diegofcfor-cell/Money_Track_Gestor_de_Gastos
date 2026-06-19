@@ -20,15 +20,15 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="card">
                 <p class="stat-label">Ingresos</p>
-                <p class="stat-value text-emerald-600">${{ number_format($totalIngresos, 2) }}</p>
+                <p class="stat-value text-emerald-600">${{ number_format($totalIngresos, 2, ',', '.') }}</p>
             </div>
             <div class="card">
                 <p class="stat-label">Egresos</p>
-                <p class="stat-value text-red-600">${{ number_format($totalEgresos, 2) }}</p>
+                <p class="stat-value text-red-600">${{ number_format($totalEgresos, 2, ',', '.') }}</p>
             </div>
             <div class="card">
                 <p class="stat-label">Saldo</p>
-                <p class="stat-value {{ $saldo >= 0 ? 'text-emerald-600' : 'text-red-600' }}">${{ number_format($saldo, 2) }}</p>
+                <p class="stat-value {{ $saldo >= 0 ? 'text-emerald-600' : 'text-red-600' }}">${{ number_format($saldo, 2, ',', '.') }}</p>
             </div>
         </div>
 
@@ -61,9 +61,9 @@
                             @forelse ($mensual as $m)
                             <tr class="border-b border-gray-50">
                                 <td class="py-2 px-3 text-gray-700">{{ $m['mes'] }}</td>
-                                <td class="py-2 px-3 text-right text-emerald-600">${{ number_format($m['ingresos'], 2) }}</td>
-                                <td class="py-2 px-3 text-right text-red-600">${{ number_format($m['egresos'], 2) }}</td>
-                                <td class="py-2 px-3 text-right font-semibold {{ $m['saldo'] >= 0 ? 'text-emerald-600' : 'text-red-600' }}">${{ number_format($m['saldo'], 2) }}</td>
+                                <td class="py-2 px-3 text-right text-emerald-600">${{ number_format($m['ingresos'], 2, ',', '.') }}</td>
+                                <td class="py-2 px-3 text-right text-red-600">${{ number_format($m['egresos'], 2, ',', '.') }}</td>
+                                <td class="py-2 px-3 text-right font-semibold {{ $m['saldo'] >= 0 ? 'text-emerald-600' : 'text-red-600' }}">${{ number_format($m['saldo'], 2, ',', '.') }}</td>
                             </tr>
                             @empty
                             <tr><td colspan="4" class="text-center py-8 text-gray-400">Sin datos</td></tr>
@@ -109,7 +109,7 @@
                                 @endif
                             </td>
                             <td class="py-3 px-4 text-right font-semibold {{ $m->tipo == 'ingreso' ? 'text-emerald-600' : ($m->tipo == 'ahorro' ? 'text-indigo-600' : 'text-red-600') }}">
-                                ${{ number_format($m->monto, 2) }}
+                                ${{ number_format($m->monto, 2, ',', '.') }}
                             </td>
                         </tr>
                         @empty

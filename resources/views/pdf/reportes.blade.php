@@ -26,15 +26,15 @@
     <div class="resumen">
         <div>
             <div class="label">Total Ingresos</div>
-            <div class="value" style="color:#059669">${{ number_format($totalIngresos, 2) }}</div>
+            <div class="value" style="color:#059669">${{ number_format($totalIngresos, 2, ',', '.') }}</div>
         </div>
         <div>
             <div class="label">Total Egresos</div>
-            <div class="value" style="color:#dc2626">${{ number_format($totalEgresos, 2) }}</div>
+            <div class="value" style="color:#dc2626">${{ number_format($totalEgresos, 2, ',', '.') }}</div>
         </div>
         <div>
             <div class="label">Saldo</div>
-            <div class="value" style="color:{{ $saldo >= 0 ? '#059669' : '#dc2626' }}">${{ number_format($saldo, 2) }}</div>
+            <div class="value" style="color:{{ $saldo >= 0 ? '#059669' : '#dc2626' }}">${{ number_format($saldo, 2, ',', '.') }}</div>
         </div>
     </div>
 
@@ -55,7 +55,7 @@
                 <td class="{{ $m->tipo }}">{{ ucfirst($m->tipo) }}</td>
                 <td>{{ $m->categoria->nombre ?? '-' }}</td>
                 <td>{{ $m->subcategoria->nombre ?? '-' }}</td>
-                <td align="right" class="{{ $m->tipo }}">${{ number_format($m->monto, 2) }}</td>
+                <td align="right" class="{{ $m->tipo }}">${{ number_format($m->monto, 2, ',', '.') }}</td>
             </tr>
             @empty
             <tr><td colspan="5" align="center">No hay movimientos registrados</td></tr>

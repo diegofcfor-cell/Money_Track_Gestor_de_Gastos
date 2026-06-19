@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
@@ -13,43 +13,43 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3 mb-8">
-            <div class="card min-w-0">
-                <p class="stat-label">Ingresos</p>
-                <p class="stat-value text-emerald-600 break-words">${{ number_format($totalIngresos, 2) }}</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-9 gap-2 sm:gap-3 mb-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Total Ingresos: ${{ number_format($totalIngresos, 2, ',', '.') }}">
+                <p class="stat-label truncate">Ingresos</p>
+                <p class="stat-value text-emerald-600 truncate">${{ number_format($totalIngresos, 2, ',', '.') }}</p>
             </div>
-            <div class="card min-w-0">
-                <p class="stat-label">Egresos</p>
-                <p class="stat-value text-red-600 break-words">${{ number_format($totalEgresos, 2) }}</p>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Total Egresos: ${{ number_format($totalEgresos, 2, ',', '.') }}">
+                <p class="stat-label truncate">Egresos</p>
+                <p class="stat-value text-red-600 truncate">${{ number_format($totalEgresos, 2, ',', '.') }}</p>
             </div>
-            <div class="card min-w-0">
-                <p class="stat-label">Saldo</p>
-                <p class="stat-value {{ $saldo >= 0 ? 'text-emerald-600' : 'text-red-600' }} break-words">${{ number_format($saldo, 2) }}</p>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Saldo: ${{ number_format($saldo, 2, ',', '.') }}">
+                <p class="stat-label truncate">Saldo</p>
+                <p class="stat-value {{ $saldo >= 0 ? 'text-emerald-600' : 'text-red-600' }} truncate">${{ number_format($saldo, 2, ',', '.') }}</p>
             </div>
-            <div class="card min-w-0">
-                <p class="stat-label">Prom. Gasto/Mes</p>
-                <p class="stat-value text-orange-600 break-words">${{ number_format($promedioGastoMensual, 2) }}</p>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Promedio Gasto/Mes: ${{ number_format($promedioGastoMensual, 2, ',', '.') }}">
+                <p class="stat-label truncate">Prom. Gasto/Mes</p>
+                <p class="stat-value text-orange-600 truncate">${{ number_format($promedioGastoMensual, 2, ',', '.') }}</p>
             </div>
-            <div class="card min-w-0">
-                <p class="stat-label">Mayor Gasto</p>
-                <p class="stat-value text-red-600 break-words">${{ number_format($mayorGasto, 2) }}</p>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Mayor Gasto: ${{ number_format($mayorGasto, 2, ',', '.') }}">
+                <p class="stat-label truncate">Mayor Gasto</p>
+                <p class="stat-value text-red-600 truncate">${{ number_format($mayorGasto, 2, ',', '.') }}</p>
             </div>
-            <div class="card min-w-0">
-                <p class="stat-label">Mayor Ingreso</p>
-                <p class="stat-value text-emerald-600 break-words">${{ number_format($mayorIngreso, 2) }}</p>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Mayor Ingreso: ${{ number_format($mayorIngreso, 2, ',', '.') }}">
+                <p class="stat-label truncate">Mayor Ingreso</p>
+                <p class="stat-value text-emerald-600 truncate">${{ number_format($mayorIngreso, 2, ',', '.') }}</p>
             </div>
-            <div class="card min-w-0">
-                <p class="stat-label">Total Ahorrado</p>
-                <p class="stat-value text-indigo-600 break-words">${{ number_format($totalAhorro, 2) }}</p>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Total Ahorrado: ${{ number_format($totalAhorro, 2, ',', '.') }}">
+                <p class="stat-label truncate">Total Ahorrado</p>
+                <p class="stat-value text-indigo-600 truncate">${{ number_format($totalAhorro, 2, ',', '.') }}</p>
             </div>
-            <div class="card min-w-0">
-                <p class="stat-label">Ahorro del Mes</p>
-                <p class="stat-value text-indigo-600 break-words">${{ number_format($ahorroMes, 2) }}</p>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Ahorro del Mes: ${{ number_format($ahorroMes, 2, ',', '.') }}">
+                <p class="stat-label truncate">Ahorro del Mes</p>
+                <p class="stat-value text-indigo-600 truncate">${{ number_format($ahorroMes, 2, ',', '.') }}</p>
                 <p class="text-xs text-indigo-400">{{ $tasaAhorro }}%</p>
             </div>
-            <div class="card min-w-0">
-                <p class="stat-label">Movimientos</p>
-                <p class="stat-value text-blue-600 break-words">{{ $totalMovimientos }}</p>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Total Movimientos: {{ $totalMovimientos }}">
+                <p class="stat-label truncate">Movimientos</p>
+                <p class="stat-value text-blue-600 truncate">{{ $totalMovimientos }}</p>
             </div>
         </div>
 
@@ -65,7 +65,7 @@
                 <div class="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                     <div>
                         <span class="text-sm font-medium text-gray-800">{{ $alert->categoria->nombre }}</span>
-                        <span class="text-xs text-gray-400 ml-2">${{ number_format($alert->gastado, 0) }} / ${{ number_format($alert->limite, 0) }}</span>
+                        <span class="text-xs text-gray-400 ml-2">${{ number_format($alert->gastado, 0, ',', '.') }} / ${{ number_format($alert->limite, 0, ',', '.') }}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <span class="text-xs font-semibold {{ $alert->excedido ? 'text-red-600' : 'text-orange-500' }}">{{ $alert->porcentaje }}%</span>
@@ -89,7 +89,7 @@
                 <div class="mb-3 last:mb-0">
                     <div class="flex items-center justify-between mb-1">
                         <span class="text-sm font-medium text-gray-800">{{ $meta->nombre }}</span>
-                        <span class="text-xs text-gray-500">${{ number_format($meta->monto_actual, 0) }} / ${{ number_format($meta->monto_objetivo, 0) }}</span>
+                        <span class="text-xs text-gray-500">${{ number_format($meta->monto_actual, 0, ',', '.') }} / ${{ number_format($meta->monto_objetivo, 0, ',', '.') }}</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-2">
                         <div class="h-2 rounded-full {{ $meta->completada ? 'bg-emerald-500' : 'bg-blue-500' }}" style="width: {{ $meta->progreso }}%"></div>
@@ -115,7 +115,7 @@
             <div class="card">
                 <h3 class="card-header">
                     <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-                    Evolución del Saldo
+                    EvoluciÃ³n del Saldo
                 </h3>
                 <div style="height: 260px;">
                     <canvas id="chartEvolucionSaldo"></canvas>
@@ -136,14 +136,14 @@
             <div class="card">
                 <h3 class="card-header">
                     <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/></svg>
-                    Gastos por Categoría
+                    Gastos por CategorÃ­a
                 </h3>
                 <div style="height: 200px;">
                     <canvas id="chartCategorias"></canvas>
                 </div>
                 <div class="mt-3 text-xs text-gray-500">
                     @if($categoriaMasGastada && $categoriaMasGastada->categoria)
-                        <p>Más gastada: <strong>{{ $categoriaMasGastada->categoria->nombre }}</strong> (${{ number_format($categoriaMasGastada->total, 2) }})</p>
+                        <p>MÃ¡s gastada: <strong>{{ $categoriaMasGastada->categoria->nombre }}</strong> (${{ number_format($categoriaMasGastada->total, 2, ',', '.') }})</p>
                     @endif
                 </div>
             </div>
@@ -153,7 +153,7 @@
             <div class="flex items-center justify-between mb-4">
                 <h3 class="card-header !mb-0">
                     <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                    Últimos Movimientos
+                    Ãšltimos Movimientos
                 </h3>
                 <a href="{{ route('movimientos.index') }}" class="text-sm text-amber-600 hover:text-amber-700 font-medium">Ver todos &rarr;</a>
             </div>
@@ -163,7 +163,7 @@
                         <tr class="border-b border-gray-100">
                             <th class="text-left py-3 px-4 font-semibold text-gray-600">Fecha</th>
                             <th class="text-left py-3 px-4 font-semibold text-gray-600">Tipo</th>
-                            <th class="text-left py-3 px-4 font-semibold text-gray-600">Categoría</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-600">CategorÃ­a</th>
                             <th class="text-right py-3 px-4 font-semibold text-gray-600">Monto</th>
                         </tr>
                     </thead>
@@ -187,7 +187,7 @@
                                 @endif
                             </td>
                             <td class="py-3 px-4 text-right font-semibold {{ $m->tipo == 'ingreso' ? 'text-emerald-600' : 'text-red-600' }}">
-                                ${{ number_format($m->monto, 2) }}
+                                ${{ number_format($m->monto, 2, ',', '.') }}
                             </td>
                         </tr>
                         @empty
@@ -296,3 +296,4 @@
     });
     </script>
 </x-app-layout>
+

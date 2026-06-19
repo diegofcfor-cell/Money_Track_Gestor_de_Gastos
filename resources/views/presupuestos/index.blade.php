@@ -43,7 +43,7 @@
                         <div class="flex items-center justify-between mb-1">
                             <div>
                                 <span class="text-sm font-medium text-gray-800">{{ $p->categoria->nombre }}</span>
-                                <span class="text-xs text-gray-400 ml-2">${{ number_format($gastado, 2) }} / ${{ number_format($p->limite_mensual, 2) }}</span>
+                                <span class="text-xs text-gray-400 ml-2">${{ number_format($gastado, 2, ',', '.') }} / ${{ number_format($p->limite_mensual, 2, ',', '.') }}</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="text-xs font-semibold {{ $excedido ? 'text-red-600' : 'text-emerald-600' }}">
@@ -117,7 +117,7 @@
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="text-xs font-semibold {{ $completada ? 'text-emerald-600' : 'text-blue-600' }}">
-                                    ${{ number_format($meta->monto_actual, 0) }} / ${{ number_format($meta->monto_objetivo, 0) }}
+                                    ${{ number_format($meta->monto_actual, 0, ',', '.') }} / ${{ number_format($meta->monto_objetivo, 0, ',', '.') }}
                                 </span>
                                 @if ($completada)
                                     <span class="badge-income text-xs">Completada</span>
@@ -137,7 +137,7 @@
                         <div class="flex justify-between mt-1">
                             <span class="text-xs text-gray-400">{{ $progreso }}% completado</span>
                             @if (!$completada && $meta->monto_actual > 0)
-                                <span class="text-xs text-gray-400">Faltan ${{ number_format($meta->monto_objetivo - $meta->monto_actual, 2) }}</span>
+                                <span class="text-xs text-gray-400">Faltan ${{ number_format($meta->monto_objetivo - $meta->monto_actual, 2, ',', '.') }}</span>
                             @endif
                         </div>
                     </div>

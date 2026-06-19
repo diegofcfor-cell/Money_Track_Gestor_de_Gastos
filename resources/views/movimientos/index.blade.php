@@ -77,7 +77,7 @@
                                 @endif
                             </td>
                             <td class="py-3 px-4 text-right font-semibold {{ $m->tipo == 'ingreso' ? 'text-emerald-600' : 'text-red-600' }}">
-                                ${{ number_format($m->monto, 2) }}
+                                ${{ number_format($m->monto, 2, ',', '.') }}
                             </td>
                             <td class="py-3 px-4 text-center">
                                 <div class="flex items-center justify-center gap-2">

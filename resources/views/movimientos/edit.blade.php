@@ -46,7 +46,7 @@
                     <select name="meta_ahorro_id" class="form-select">
                         <option value="">Sin meta asociada</option>
                         @foreach ($metas as $meta)
-                            <option value="{{ $meta->id }}" {{ $movimiento->meta_ahorro_id == $meta->id ? 'selected' : '' }}>{{ $meta->nombre }} (${{ number_format($meta->monto_objetivo, 0) }})</option>
+                            <option value="{{ $meta->id }}" {{ $movimiento->meta_ahorro_id == $meta->id ? 'selected' : '' }}>{{ $meta->nombre }} (${{ number_format($meta->monto_objetivo, 0, ',', '.') }})</option>
                         @endforeach
                     </select>
                 </div>

@@ -10,7 +10,10 @@
         @apply text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2;
     }
     .stat-value {
-        @apply text-2xl font-bold;
+        @apply text-lg sm:text-xl font-bold leading-tight;
+    }
+    .stat-value-sm {
+        @apply text-base sm:text-lg font-bold leading-tight;
     }
     .stat-label {
         @apply text-sm text-gray-500;
