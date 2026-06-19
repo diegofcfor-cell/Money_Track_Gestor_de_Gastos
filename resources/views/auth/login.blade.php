@@ -88,22 +88,22 @@ body {
     background-size: 40px 40px;
 }
 
-/* Monedas al frente */
+/* Monedas entre el fondo y el card */
 .coins-front {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    z-index: 100;
+    z-index: 5;
     pointer-events: none;
     overflow: hidden;
 }
 .coin {
     position: absolute;
-    opacity: 0.35;
+    opacity: 0.15;
     animation: caer linear infinite;
-    filter: drop-shadow(0 0 6px rgba(217, 119, 6, 0.4));
+    filter: drop-shadow(0 0 6px rgba(217, 119, 6, 0.3));
 }
 @keyframes caer {
     0% { transform: translateY(-80px) rotate(0deg); }
