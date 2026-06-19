@@ -1,16 +1,15 @@
 <x-guest-layout>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
-
 body {
     margin: 0;
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
     overflow: hidden;
+    background: #0f172a;
 }
 
-/* Fondo animado con gradiente */
+/* Fondo animado */
 .bg-animated {
     position: fixed;
     top: 0;
@@ -27,18 +26,17 @@ body {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse at 20% 50%, rgba(217, 119, 6, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 20%, rgba(5, 150, 105, 0.05) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 80%, rgba(217, 119, 6, 0.04) 0%, transparent 50%);
+        radial-gradient(ellipse at 20% 50%, rgba(217, 119, 6, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(5, 150, 105, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(217, 119, 6, 0.05) 0%, transparent 50%);
 }
 
 /* Círculos flotantes */
 .floating-circle {
     position: absolute;
     border-radius: 50%;
-    opacity: 0.15;
+    opacity: 0.12;
 }
-
 .floating-circle:nth-child(1) {
     width: 500px; height: 500px;
     background: radial-gradient(circle, #d97706, transparent);
@@ -63,7 +61,6 @@ body {
     top: 10%; right: 15%;
     animation: float4 22s ease-in-out infinite;
 }
-
 @keyframes float1 {
     0%, 100% { transform: translate(0, 0) scale(1); }
     33% { transform: translate(80px, 60px) scale(1.1); }
@@ -91,53 +88,50 @@ body {
     background-size: 40px 40px;
 }
 
-/* Monedas animadas */
-.coin {
-    position: absolute;
-    opacity: 0.12;
-    animation: caer linear infinite;
-    filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.3));
-}
-
-@keyframes caer {
-    0% { transform: translateY(-80px) rotate(0deg) scale(0.8); }
-    100% { transform: translateY(110vh) rotate(720deg) scale(1.2); }
-}
-
-/* Monedas al frente del card */
+/* Monedas al frente */
 .coins-front {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    z-index: 30;
+    z-index: 100;
     pointer-events: none;
     overflow: hidden;
 }
+.coin {
+    position: absolute;
+    opacity: 0.35;
+    animation: caer linear infinite;
+    filter: drop-shadow(0 0 6px rgba(217, 119, 6, 0.4));
+}
+@keyframes caer {
+    0% { transform: translateY(-80px) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(720deg); }
+}
 
-/* Card con glassmorphism */
+/* Card */
 .login-card {
     position: relative;
     z-index: 10;
     width: 100%;
-    max-width: 480px;
+    max-width: 520px;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.97);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(20px);
-    border-radius: 20px;
-    padding: 40px 32px;
+    border-radius: 24px;
+    padding: 48px 40px;
     box-shadow:
-        0 25px 60px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.05);
+        0 25px 60px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 .login-card .icon-wrap {
-    width: 72px;
-    height: 72px;
-    margin: 0 auto 20px;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
     background: linear-gradient(135deg, #fbbf24, #d97706);
-    border-radius: 20px;
+    border-radius: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -145,35 +139,29 @@ body {
 }
 
 .login-card h1 {
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 800;
     color: #0f172a;
     letter-spacing: -0.5px;
     margin: 0 0 4px;
 }
-
 .login-card .subtitle {
     color: #64748b;
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 15px;
     margin: 0 0 28px;
 }
-
-/* Divisor decorativo */
 .login-card .divider {
     width: 40px;
     height: 3px;
     background: linear-gradient(90deg, #d97706, #fbbf24);
     border-radius: 2px;
-    margin: 0 auto 24px;
+    margin: 0 auto 28px;
 }
 
-/* Inputs */
 .login-card .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 20px;
     text-align: left;
 }
-
 .login-card .form-group label {
     display: block;
     font-size: 12px;
@@ -183,122 +171,97 @@ body {
     letter-spacing: 0.5px;
     margin-bottom: 6px;
 }
-
 .login-card .form-group input[type="email"],
 .login-card .form-group input[type="password"] {
     width: 100%;
-    padding: 11px 14px;
+    padding: 12px 16px;
     border: 1.5px solid #e2e8f0;
-    border-radius: 10px;
-    font-size: 14px;
+    border-radius: 12px;
+    font-size: 15px;
     color: #0f172a;
     background: #f8fafc;
     transition: all 0.2s;
     box-sizing: border-box;
 }
-
 .login-card .form-group input:focus {
     outline: none;
     border-color: #d97706;
     background: #fff;
     box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
 }
-
 .login-card .form-group input::placeholder {
     color: #94a3b8;
 }
 
-/* Checkbox recordarme */
 .remember-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
-
 .remember-row label {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 13px;
+    font-size: 14px;
     color: #64748b;
     cursor: pointer;
 }
-
 .remember-row input[type="checkbox"] {
     width: 16px;
     height: 16px;
     accent-color: #d97706;
-    border-radius: 4px;
 }
-
 .remember-row a {
     font-size: 13px;
     color: #d97706;
     text-decoration: none;
     font-weight: 600;
 }
+.remember-row a:hover { text-decoration: underline; }
 
-.remember-row a:hover {
-    text-decoration: underline;
-}
-
-/* Botón */
 .login-btn {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     background: linear-gradient(135deg, #0f172a, #1e293b);
     color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 14px;
+    border-radius: 12px;
+    font-size: 15px;
     font-weight: 700;
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.3s;
     text-transform: uppercase;
 }
-
 .login-btn:hover {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.25);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.3);
     transform: translateY(-1px);
 }
+.login-btn:active { transform: translateY(0); }
 
-.login-btn:active {
-    transform: translateY(0);
-}
-
-/* Link registro */
 .register-link {
-    display: block;
     text-align: center;
-    margin-top: 18px;
-    font-size: 13px;
+    margin-top: 20px;
+    font-size: 14px;
     color: #64748b;
 }
-
 .register-link a {
     color: #d97706;
     font-weight: 700;
     text-decoration: none;
 }
+.register-link a:hover { text-decoration: underline; }
 
-.register-link a:hover {
-    text-decoration: underline;
-}
-
-/* Glow sutil en los bordes del card */
 .login-card::before {
     content: '';
     position: absolute;
     inset: -1px;
-    border-radius: 21px;
+    border-radius: 25px;
     background: linear-gradient(135deg, rgba(217,119,6,0.15), transparent 40%, transparent 60%, rgba(5,150,105,0.1));
     z-index: -1;
 }
 
-/* Error / Status messages */
 .login-card .status-msg {
     background: #f0fdf4;
     color: #166534;
@@ -319,26 +282,27 @@ body {
 </div>
 
 <div class="coins-front">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:8%; animation-duration:12s; width:28px;">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:22%; animation-duration:9s; width:20px; animation-delay:2s;">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:38%; animation-duration:14s; width:32px; animation-delay:4s;">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:52%; animation-duration:10s; width:22px; animation-delay:1s;">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:68%; animation-duration:13s; width:30px; animation-delay:3s;">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:82%; animation-duration:11s; width:18px; animation-delay:5s;">
-    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:92%; animation-duration:15s; width:26px; animation-delay:0s;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:5%; animation-duration:11s; width:30px;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:15%; animation-duration:8s; width:22px; animation-delay:2s;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:28%; animation-duration:13s; width:34px; animation-delay:4s;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:42%; animation-duration:9s; width:24px; animation-delay:1s;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:55%; animation-duration:12s; width:32px; animation-delay:3s;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:68%; animation-duration:10s; width:20px; animation-delay:5s;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:80%; animation-duration:14s; width:28px; animation-delay:0s;">
+    <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" class="coin" style="left:92%; animation-duration:9s; width:26px; animation-delay:2.5s;">
 </div>
 
-<div style="position:relative; z-index:10; display:flex; align-items:center; justify-content:center; min-height:100vh; padding:20px;">
+<div style="position:fixed; z-index:10; top:0; left:0; width:100%; height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; box-sizing:border-box;">
     <div class="login-card">
 
         <div class="icon-wrap">
-            <svg class="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
         </div>
 
-        <h1>MoneyTrack</h1>
-        <p class="subtitle">Controlá tus finanzas personales</p>
+        <h1 style="text-align:center;">MoneyTrack</h1>
+        <p class="subtitle" style="text-align:center;">Controlá tus finanzas personales</p>
         <div class="divider"></div>
 
         <x-auth-session-status class="status-msg" :status="session('status')" />
