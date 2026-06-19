@@ -16,6 +16,7 @@
                         <select name="tipo" class="form-select">
                             <option value="ingreso" {{ $movimiento->tipo == 'ingreso' ? 'selected' : '' }}>💰 Ingreso</option>
                             <option value="egreso" {{ $movimiento->tipo == 'egreso' ? 'selected' : '' }}>💸 Egreso</option>
+                            <option value="ahorro" {{ $movimiento->tipo == 'ahorro' ? 'selected' : '' }}>🏦 Ahorro</option>
                         </select>
                     </div>
                     <div>

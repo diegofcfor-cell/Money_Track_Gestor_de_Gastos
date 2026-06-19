@@ -64,6 +64,8 @@
                             <td class="py-3 px-4">
                                 @if ($m->tipo == 'ingreso')
                                     <span class="badge-income">Ingreso</span>
+                                @elseif ($m->tipo == 'ahorro')
+                                    <span class="badge-income" style="background:#eef2ff;color:#4338ca;">Ahorro</span>
                                 @else
                                     <span class="badge-expense">Egreso</span>
                                 @endif

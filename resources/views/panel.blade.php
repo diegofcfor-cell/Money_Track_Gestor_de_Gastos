@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-8">
+        <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3 mb-8">
             <div class="card min-w-0">
                 <p class="stat-label">Ingresos</p>
                 <p class="stat-value text-emerald-600 break-words">${{ number_format($totalIngresos, 2) }}</p>
@@ -39,9 +39,13 @@
                 <p class="stat-value text-emerald-600 break-words">${{ number_format($mayorIngreso, 2) }}</p>
             </div>
             <div class="card min-w-0">
+                <p class="stat-label">Total Ahorrado</p>
+                <p class="stat-value text-indigo-600 break-words">${{ number_format($totalAhorro, 2) }}</p>
+            </div>
+            <div class="card min-w-0">
                 <p class="stat-label">Ahorro del Mes</p>
-                <p class="stat-value {{ $ahorroMes >= 0 ? 'text-emerald-600' : 'text-red-600' }} break-words">${{ number_format($ahorroMes, 2) }}</p>
-                <p class="text-xs {{ $tasaAhorro > 0 ? 'text-emerald-500' : 'text-red-400' }}">{{ $tasaAhorro }}%</p>
+                <p class="stat-value text-indigo-600 break-words">${{ number_format($ahorroMes, 2) }}</p>
+                <p class="text-xs text-indigo-400">{{ $tasaAhorro }}%</p>
             </div>
             <div class="card min-w-0">
                 <p class="stat-label">Movimientos</p>
@@ -53,7 +57,7 @@
             <div class="card">
                 <h3 class="card-header">
                     <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                    Ingresos vs Egresos por Mes
+                    Ingresos vs Egresos vs Ahorro
                 </h3>
                 <div style="height: 260px;">
                     <canvas id="chartIngresosEgresos"></canvas>
@@ -121,6 +125,8 @@
                             <td class="py-3 px-4">
                                 @if ($m->tipo == 'ingreso')
                                     <span class="badge-income">Ingreso</span>
+                                @elseif ($m->tipo == 'ahorro')
+                                    <span class="badge-income" style="background:#eef2ff;color:#4338ca;">Ahorro</span>
                                 @else
                                     <span class="badge-expense">Egreso</span>
                                 @endif
@@ -178,7 +184,7 @@
                     datasets: [
                         { label: 'Ingresos', data: ingresos, backgroundColor: '#059669', borderRadius: 4 },
                         { label: 'Egresos', data: egresos, backgroundColor: '#dc2626', borderRadius: 4 },
-                        { label: 'Ahorro', data: ahorro, type: 'line', borderColor: '#2563eb', backgroundColor: 'transparent', tension: 0.4, pointBackgroundColor: '#2563eb', borderWidth: 2 }
+                        { label: 'Ahorro', data: ahorro, backgroundColor: '#4338ca', borderRadius: 4 }
                     ]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }

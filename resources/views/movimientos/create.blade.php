@@ -15,6 +15,7 @@
                         <select name="tipo" class="form-select">
                             <option value="ingreso">💰 Ingreso</option>
                             <option value="egreso">💸 Egreso</option>
+                            <option value="ahorro">🏦 Ahorro</option>
                         </select>
                     </div>
                     <div>

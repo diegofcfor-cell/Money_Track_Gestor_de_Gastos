@@ -96,6 +96,8 @@
                             <td class="py-3 px-4">
                                 @if ($m->tipo == 'ingreso')
                                     <span class="badge-income">Ingreso</span>
+                                @elseif ($m->tipo == 'ahorro')
+                                    <span class="badge-income" style="background:#eef2ff;color:#4338ca;">Ahorro</span>
                                 @else
                                     <span class="badge-expense">Egreso</span>
                                 @endif
@@ -106,7 +108,7 @@
                                     <span class="text-gray-400 text-xs"> / {{ $m->subcategoria->nombre }}</span>
                                 @endif
                             </td>
-                            <td class="py-3 px-4 text-right font-semibold {{ $m->tipo == 'ingreso' ? 'text-emerald-600' : 'text-red-600' }}">
+                            <td class="py-3 px-4 text-right font-semibold {{ $m->tipo == 'ingreso' ? 'text-emerald-600' : ($m->tipo == 'ahorro' ? 'text-indigo-600' : 'text-red-600') }}">
                                 ${{ number_format($m->monto, 2) }}
                             </td>
                         </tr>

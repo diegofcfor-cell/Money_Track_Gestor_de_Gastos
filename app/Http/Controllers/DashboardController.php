@@ -23,10 +23,12 @@ class DashboardController extends Controller
 
         $totalIngresos = (clone $query)->where('tipo', 'ingreso')->sum('monto');
         $totalEgresos  = (clone $query)->where('tipo', 'egreso')->sum('monto');
+        $totalAhorro   = (clone $query)->where('tipo', 'ahorro')->sum('monto');
         $saldo = $totalIngresos - $totalEgresos;
 
         $ingresosMes = (clone $queryMes)->where('tipo', 'ingreso')->sum('monto');
         $egresosMes  = (clone $queryMes)->where('tipo', 'egreso')->sum('monto');
+        $ahorroMes   = (clone $queryMes)->where('tipo', 'ahorro')->sum('monto');
         $totalMovimientos = (clone $query)->count();
         $mayorGasto = (clone $query)->where('tipo', 'egreso')->max('monto') ?? 0;
         $mayorIngreso = (clone $query)->where('tipo', 'ingreso')->max('monto') ?? 0;
@@ -75,6 +77,13 @@ class DashboardController extends Controller
             ->get()
             ->keyBy(fn($r) => $r->año . '-' . $r->mes);
 
+        $ahorroPorMesRaw = (clone $query)
+            ->where('tipo', 'ahorro')
+            ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes, SUM(monto) total'))
+            ->groupBy('año', 'mes')
+            ->get()
+            ->keyBy(fn($r) => $r->año . '-' . $r->mes);
+
         $ingresosData = [];
         $egresosData = [];
         $ahorroPorMes = [];
@@ -85,20 +94,19 @@ class DashboardController extends Controller
             $key = $r->año . '-' . $r->mes;
             $ing = $ingresosPorMes[$key]->total ?? 0;
             $egr = $egresosPorMes[$key]->total ?? 0;
+            $ahv = $ahorroPorMesRaw[$key]->total ?? 0;
             $ingresosData[] = $ing;
             $egresosData[] = $egr;
-            $ahorro = $ing - $egr;
-            $ahorroPorMes[] = $ahorro;
-            $acumulado += $ahorro;
+            $ahorroPorMes[] = $ahv;
+            $acumulado += ($ing - $egr);
             $saldoEvolucion[] = $acumulado;
         }
 
-        $ahorroMes = $ingresosMes - $egresosMes;
         $tasaAhorro = $ingresosMes > 0 ? round(($ahorroMes / $ingresosMes) * 100, 1) : 0;
 
         return view('panel', compact(
             'movimientos',
-            'totalIngresos', 'totalEgresos', 'saldo',
+            'totalIngresos', 'totalEgresos', 'totalAhorro', 'saldo',
             'ingresosMes', 'egresosMes', 'ahorroMes', 'tasaAhorro',
             'totalMovimientos', 'mayorGasto', 'mayorIngreso',
             'promedioGastoMensual',

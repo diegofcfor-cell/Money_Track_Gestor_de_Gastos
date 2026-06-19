@@ -14,7 +14,7 @@ class StoreMovimientoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tipo'            => 'required|in:ingreso,egreso',
+            'tipo'            => 'required|in:ingreso,egreso,ahorro',
             'monto'           => 'required|numeric|min:0.01',
             'fecha'           => 'required|date',
             'categoria_id'    => 'required|exists:categorias,id',
