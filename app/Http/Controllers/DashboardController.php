@@ -4,79 +4,96 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Movimiento;
-use Barryvdh\DomPDF\Facade\Pdf;
-
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Movimiento::with(['categoria', 'subcategoria'])
-    		->where('user_id', auth()->id());
+        $userId = auth()->id();
 
+        $movimientos = Movimiento::with(['categoria', 'subcategoria'])
+            ->where('user_id', $userId)
+            ->orderBy('fecha', 'desc')
+            ->take(5)
+            ->get();
 
-        // ✅ FILTROS
-        if ($request->filled('tipo')) {
-            $query->where('tipo', $request->tipo);
-        }
+        $query = Movimiento::where('user_id', $userId);
+        $queryMes = (clone $query)->whereMonth('fecha', now()->month)->whereYear('fecha', now()->year);
 
-        if ($request->filled('desde')) {
-            $query->whereDate('fecha', '>=', $request->desde);
-        }
-
-        if ($request->filled('hasta')) {
-            $query->whereDate('fecha', '<=', $request->hasta);
-        }
-
-        // ✅ MOVIMIENTOS
-        $movimientos = $query->orderBy('fecha', 'desc')->get();
-
-        // ✅ TOTALES
         $totalIngresos = (clone $query)->where('tipo', 'ingreso')->sum('monto');
         $totalEgresos  = (clone $query)->where('tipo', 'egreso')->sum('monto');
-
         $saldo = $totalIngresos - $totalEgresos;
 
-        // ✅ GRÁFICO POR CATEGORÍA
-        $egresosPorSubcategoria = (clone $query)
-    		->where('tipo', 'egreso')
-    		->get()
-    		->groupBy(function ($item) {
-        		return ($item->categoria->nombre ?? '') . ' - ' . ($item->subcategoria->nombre ?? '');
-    		});
+        $ingresosMes = (clone $queryMes)->where('tipo', 'ingreso')->sum('monto');
+        $egresosMes  = (clone $queryMes)->where('tipo', 'egreso')->sum('monto');
+        $totalMovimientos = (clone $query)->count();
+        $mayorGasto = (clone $query)->where('tipo', 'egreso')->max('monto') ?? 0;
+        $mayorIngreso = (clone $query)->where('tipo', 'ingreso')->max('monto') ?? 0;
 
-	$labels = $egresosPorSubcategoria->keys();
+        $promedioGastoMensual = (clone $query)
+            ->where('tipo', 'egreso')
+            ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes, SUM(monto) total'))
+            ->groupBy('año', 'mes')
+            ->get()
+            ->avg('total') ?? 0;
 
-	$data = $egresosPorSubcategoria->map(function ($grupo) {
-   		return $grupo->sum('monto');
-	})->values();
+        $categoriaMasGastada = (clone $query)
+            ->where('tipo', 'egreso')
+            ->select('categoria_id', DB::raw('SUM(monto) total'))
+            ->groupBy('categoria_id')
+            ->orderByDesc('total')
+            ->with('categoria')
+            ->first();
 
+        $egresosPorCategoria = (clone $query)
+            ->where('tipo', 'egreso')
+            ->get()
+            ->groupBy(fn($m) => $m->categoria->nombre ?? 'Sin categoría')
+            ->map(fn($g) => $g->sum('monto'));
+
+        $ingresosPorMes = (clone $query)
+            ->where('tipo', 'ingreso')
+            ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes, SUM(monto) total'))
+            ->groupBy('año', 'mes')
+            ->orderBy('año')
+            ->orderBy('mes')
+            ->get();
+
+        $egresosPorMes = (clone $query)
+            ->where('tipo', 'egreso')
+            ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes, SUM(monto) total'))
+            ->groupBy('año', 'mes')
+            ->orderBy('año')
+            ->orderBy('mes')
+            ->get();
+
+        $labelsMeses = $ingresosPorMes->pluck('mes')->map(fn($m) => \Carbon\Carbon::create()->month($m)->translatedFormat('M'))
+            ->toArray();
+        $ingresosData = $ingresosPorMes->pluck('total')->toArray();
+        $egresosData = $egresosPorMes->pluck('total')->toArray();
+
+        $saldoEvolucion = [];
+        $acumulado = 0;
+        foreach ($ingresosPorMes as $i => $row) {
+            $egr = $egresosPorMes[$i]->total ?? 0;
+            $acumulado += ($row->total - $egr);
+            $saldoEvolucion[] = $acumulado;
+        }
+
+        $tendenciaGastos = $egresosPorMes->pluck('total')->toArray();
 
         return view('panel', compact(
             'movimientos',
-            'totalIngresos',
-            'totalEgresos',
-            'saldo',
-            'labels',
-            'data'
+            'totalIngresos', 'totalEgresos', 'saldo',
+            'ingresosMes', 'egresosMes',
+            'totalMovimientos', 'mayorGasto', 'mayorIngreso',
+            'promedioGastoMensual',
+            'categoriaMasGastada',
+            'egresosPorCategoria',
+            'labelsMeses', 'ingresosData', 'egresosData',
+            'saldoEvolucion', 'tendenciaGastos'
         ));
     }
-
-
-    public function pdf()
-    {
-    	$movimientos = Movimiento::with(['categoria', 'subcategoria'])
-        	->where('user_id', auth()->id())
-        	->orderBy('fecha', 'desc')
-        	->get();
-
-    	$pdf = Pdf::loadView('pdf.movimientos', compact('movimientos'));
-
-
-    	return $pdf->download('movimientos.pdf');
-     }
-
-
-
 }
 

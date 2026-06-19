@@ -7,9 +7,30 @@ use App\Models\Categoria;
 use App\Models\Subcategoria;
 use App\Http\Requests\StoreMovimientoRequest;
 use App\Http\Requests\UpdateMovimientoRequest;
+use Illuminate\Http\Request;
 
 class MovimientoController extends Controller
 {
+    public function index(Request $request)
+    {
+        $query = Movimiento::with(['categoria', 'subcategoria'])
+            ->where('user_id', auth()->id());
+
+        if ($request->filled('tipo')) {
+            $query->where('tipo', $request->tipo);
+        }
+        if ($request->filled('desde')) {
+            $query->whereDate('fecha', '>=', $request->desde);
+        }
+        if ($request->filled('hasta')) {
+            $query->whereDate('fecha', '<=', $request->hasta);
+        }
+
+        $movimientos = $query->orderBy('fecha', 'desc')->paginate(10);
+
+        return view('movimientos.index', compact('movimientos'));
+    }
+
     public function create()
     {
     	$categorias = Categoria::all();
@@ -25,7 +46,7 @@ class MovimientoController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect('/panel');
+        return redirect()->route('movimientos.index');
     }
 
     public function edit($id)
@@ -46,7 +67,7 @@ class MovimientoController extends Controller
 
         $movimiento->update($request->validated());
 
-        return redirect('/panel');
+        return redirect()->route('movimientos.index');
     }
 
     public function destroy($id)

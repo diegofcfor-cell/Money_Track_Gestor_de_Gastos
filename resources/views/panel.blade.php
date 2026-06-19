@@ -6,112 +6,99 @@
                 <p class="text-sm text-gray-500 mt-1">{{ Auth::user()->email }}</p>
             </div>
             <div class="flex items-center gap-3">
-                <a href="{{ route('movimientos.pdf') }}" target="_blank"
-                    class="btn-warning">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-                    PDF
-                </a>
-                <button onclick="window.print()"
-                    class="btn-warning">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-                    Imprimir
-                </button>
-                <a href="{{ route('movimientos.create') }}"
-                    class="btn-success">
+                <a href="{{ route('movimientos.create') }}" class="btn-success">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                     Nuevo Movimiento
                 </a>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
             <div class="card">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="stat-label">Ingresos</p>
-                        <p class="stat-value text-emerald-600">${{ number_format($totalIngresos, 2) }}</p>
-                    </div>
-                    <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-                    </div>
+                <p class="stat-label">Ingresos</p>
+                <p class="stat-value text-emerald-600">${{ number_format($totalIngresos, 2) }}</p>
+            </div>
+            <div class="card">
+                <p class="stat-label">Egresos</p>
+                <p class="stat-value text-red-600">${{ number_format($totalEgresos, 2) }}</p>
+            </div>
+            <div class="card">
+                <p class="stat-label">Saldo</p>
+                <p class="stat-value {{ $saldo >= 0 ? 'text-emerald-600' : 'text-red-600' }}">${{ number_format($saldo, 2) }}</p>
+            </div>
+            <div class="card">
+                <p class="stat-label">Prom. Gasto/Mes</p>
+                <p class="stat-value text-orange-600">${{ number_format($promedioGastoMensual, 2) }}</p>
+            </div>
+            <div class="card">
+                <p class="stat-label">Mayor Gasto</p>
+                <p class="stat-value text-red-600">${{ number_format($mayorGasto, 2) }}</p>
+            </div>
+            <div class="card">
+                <p class="stat-label">Mayor Ingreso</p>
+                <p class="stat-value text-emerald-600">${{ number_format($mayorIngreso, 2) }}</p>
+            </div>
+            <div class="card">
+                <p class="stat-label">Movimientos</p>
+                <p class="stat-value text-blue-600">{{ $totalMovimientos }}</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="card">
+                <h3 class="card-header">
+                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    Ingresos vs Egresos por Mes
+                </h3>
+                <div style="height: 260px;">
+                    <canvas id="chartIngresosEgresos"></canvas>
                 </div>
             </div>
             <div class="card">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="stat-label">Egresos</p>
-                        <p class="stat-value text-red-600">${{ number_format($totalEgresos, 2) }}</p>
-                    </div>
-                    <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/></svg>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="stat-label">Saldo</p>
-                        <p class="stat-value {{ $saldo >= 0 ? 'text-emerald-600' : 'text-red-600' }}">${{ number_format($saldo, 2) }}</p>
-                    </div>
-                    <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
+                <h3 class="card-header">
+                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                    Evolución del Saldo
+                </h3>
+                <div style="height: 260px;">
+                    <canvas id="chartEvolucionSaldo"></canvas>
                 </div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-            <div class="lg:col-span-2">
-                <div class="card">
-                    <h3 class="card-header">
-                        <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                        Filtros
-                    </h3>
-                    <form method="GET" class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                        <div>
-                            <label class="form-label">Tipo</label>
-                            <select name="tipo" class="form-select">
-                                <option value="">Todos</option>
-                                <option value="ingreso" {{ request('tipo') == 'ingreso' ? 'selected' : '' }}>Ingresos</option>
-                                <option value="egreso" {{ request('tipo') == 'egreso' ? 'selected' : '' }}>Egresos</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="form-label">Desde</label>
-                            <input type="date" name="desde" value="{{ request('desde') }}" class="form-input">
-                        </div>
-                        <div>
-                            <label class="form-label">Hasta</label>
-                            <input type="date" name="hasta" value="{{ request('hasta') }}" class="form-input">
-                        </div>
-                        <div class="flex items-end">
-                            <button type="submit" class="btn-primary w-full justify-center">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                                Filtrar
-                            </button>
-                        </div>
-                    </form>
+            <div class="lg:col-span-2 card">
+                <h3 class="card-header">
+                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/></svg>
+                    Tendencia de Gastos
+                </h3>
+                <div style="height: 260px;">
+                    <canvas id="chartTendencia"></canvas>
                 </div>
             </div>
-            <div>
-                <div class="card h-full">
-                    <h3 class="card-header">
-                        <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/></svg>
-                        Egresos por Categoría
-                    </h3>
-                    <div class="flex justify-center" style="height: 220px;">
-                        <canvas id="grafico"></canvas>
-                    </div>
+            <div class="card">
+                <h3 class="card-header">
+                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/></svg>
+                    Gastos por Categoría
+                </h3>
+                <div style="height: 200px;">
+                    <canvas id="chartCategorias"></canvas>
+                </div>
+                <div class="mt-3 text-xs text-gray-500">
+                    @if($categoriaMasGastada && $categoriaMasGastada->categoria)
+                        <p>Más gastada: <strong>{{ $categoriaMasGastada->categoria->nombre }}</strong> (${{ number_format($categoriaMasGastada->total, 2) }})</p>
+                    @endif
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <h3 class="card-header">
-                <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                Movimientos
-                <span class="text-sm font-normal text-gray-400">({{ $movimientos->count() }})</span>
-            </h3>
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="card-header !mb-0">
+                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                    Últimos Movimientos
+                </h3>
+                <a href="{{ route('movimientos.index') }}" class="text-sm text-amber-600 hover:text-amber-700 font-medium">Ver todos &rarr;</a>
+            </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
                     <thead>
@@ -120,7 +107,6 @@
                             <th class="text-left py-3 px-4 font-semibold text-gray-600">Tipo</th>
                             <th class="text-left py-3 px-4 font-semibold text-gray-600">Categoría</th>
                             <th class="text-right py-3 px-4 font-semibold text-gray-600">Monto</th>
-                            <th class="text-center py-3 px-4 font-semibold text-gray-600">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -143,27 +129,10 @@
                             <td class="py-3 px-4 text-right font-semibold {{ $m->tipo == 'ingreso' ? 'text-emerald-600' : 'text-red-600' }}">
                                 ${{ number_format($m->monto, 2) }}
                             </td>
-                            <td class="py-3 px-4 text-center">
-                                <div class="flex items-center justify-center gap-2">
-                                    <a href="{{ route('movimientos.edit', $m->id) }}"
-                                        class="btn-warning px-2 py-1 text-xs">
-                                        Editar
-                                    </a>
-                                    <form action="{{ route('movimientos.destroy', $m->id) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            onclick="return confirm('¿Eliminar este movimiento?')"
-                                            class="btn-danger px-2 py-1 text-xs">
-                                            Eliminar
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="text-center py-12 text-gray-400">
+                            <td colspan="4" class="text-center py-12 text-gray-400">
                                 <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                                 <p class="text-sm">No hay movimientos registrados</p>
                             </td>
@@ -178,50 +147,63 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const labels = @json($labels);
-        const data = @json($data);
+        const colores = ['#059669', '#d97706', '#dc2626', '#2563eb', '#7c3aed', '#0891b2', '#be123c', '#ca8a04'];
 
-        if (!labels || labels.length === 0) return;
+        const meses = @json($labelsMeses);
+        const ingresos = @json($ingresosData);
+        const egresos = @json($egresosData);
+        const evolucion = @json($saldoEvolucion);
+        const tendencia = @json($tendenciaGastos);
+        const catLabels = @json($egresosPorCategoria->keys());
+        const catData = @json($egresosPorCategoria->values());
 
-        const ctx = document.getElementById('grafico');
-        if (!ctx) return;
+        function crear(ctxId, config) {
+            const ctx = document.getElementById(ctxId);
+            if (ctx) new Chart(ctx, config);
+        }
 
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: data,
-                    backgroundColor: ['#059669', '#d97706', '#dc2626', '#2563eb', '#7c3aed', '#0891b2', '#be123c', '#ca8a04'],
-                    borderWidth: 0,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '65%',
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { padding: 12, usePointStyle: true, font: { size: 11 } }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.label + ': $' + context.parsed.toFixed(2);
-                            }
-                        }
-                    }
-                }
-            }
-        });
+        if (meses.length > 0) {
+            crear('chartIngresosEgresos', {
+                type: 'bar',
+                data: {
+                    labels: meses,
+                    datasets: [
+                        { label: 'Ingresos', data: ingresos, backgroundColor: '#059669', borderRadius: 4 },
+                        { label: 'Egresos', data: egresos, backgroundColor: '#dc2626', borderRadius: 4 }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }
+            });
+
+            crear('chartEvolucionSaldo', {
+                type: 'line',
+                data: {
+                    labels: meses,
+                    datasets: [{ label: 'Saldo', data: evolucion, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, tension: 0.4 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            crear('chartTendencia', {
+                type: 'line',
+                data: {
+                    labels: meses,
+                    datasets: [{ label: 'Gastos', data: tendencia, borderColor: '#dc2626', backgroundColor: 'rgba(220,38,38,0.08)', fill: true, tension: 0.4 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+        }
+
+        if (catLabels.length > 0) {
+            crear('chartCategorias', {
+                type: 'doughnut',
+                data: {
+                    labels: catLabels,
+                    datasets: [{ data: catData, backgroundColor: colores.slice(0, catLabels.length), borderWidth: 0 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { position: 'bottom', labels: { padding: 8, usePointStyle: true, font: { size: 10 } } } } }
+            });
+        }
     });
     </script>
-
-    <style>
-    @media print {
-        nav, .btn-success, .btn-warning, .btn-danger, form { display: none !important; }
-        .card { box-shadow: none !important; border: 1px solid #e5e7eb !important; }
-    }
-    </style>
 </x-app-layout>
