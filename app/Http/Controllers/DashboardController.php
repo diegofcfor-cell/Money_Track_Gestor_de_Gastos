@@ -83,16 +83,25 @@ class DashboardController extends Controller
 
         $tendenciaGastos = $egresosPorMes->pluck('total')->toArray();
 
+        $ahorroMes = $ingresosMes - $egresosMes;
+        $tasaAhorro = $ingresosMes > 0 ? round(($ahorroMes / $ingresosMes) * 100, 1) : 0;
+
+        $ahorroPorMes = [];
+        foreach ($ingresosPorMes as $i => $row) {
+            $egr = $egresosPorMes[$i]->total ?? 0;
+            $ahorroPorMes[] = $row->total - $egr;
+        }
+
         return view('panel', compact(
             'movimientos',
             'totalIngresos', 'totalEgresos', 'saldo',
-            'ingresosMes', 'egresosMes',
+            'ingresosMes', 'egresosMes', 'ahorroMes', 'tasaAhorro',
             'totalMovimientos', 'mayorGasto', 'mayorIngreso',
             'promedioGastoMensual',
             'categoriaMasGastada',
             'egresosPorCategoria',
             'labelsMeses', 'ingresosData', 'egresosData',
-            'saldoEvolucion', 'tendenciaGastos'
+            'saldoEvolucion', 'tendenciaGastos', 'ahorroPorMes'
         ));
     }
 }

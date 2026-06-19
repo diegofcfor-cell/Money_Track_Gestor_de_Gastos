@@ -13,34 +13,39 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
-            <div class="card">
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-8">
+            <div class="card min-w-0">
                 <p class="stat-label">Ingresos</p>
-                <p class="stat-value text-emerald-600">${{ number_format($totalIngresos, 2) }}</p>
+                <p class="stat-value text-emerald-600 break-words">${{ number_format($totalIngresos, 2) }}</p>
             </div>
-            <div class="card">
+            <div class="card min-w-0">
                 <p class="stat-label">Egresos</p>
-                <p class="stat-value text-red-600">${{ number_format($totalEgresos, 2) }}</p>
+                <p class="stat-value text-red-600 break-words">${{ number_format($totalEgresos, 2) }}</p>
             </div>
-            <div class="card">
+            <div class="card min-w-0">
                 <p class="stat-label">Saldo</p>
-                <p class="stat-value {{ $saldo >= 0 ? 'text-emerald-600' : 'text-red-600' }}">${{ number_format($saldo, 2) }}</p>
+                <p class="stat-value {{ $saldo >= 0 ? 'text-emerald-600' : 'text-red-600' }} break-words">${{ number_format($saldo, 2) }}</p>
             </div>
-            <div class="card">
+            <div class="card min-w-0">
                 <p class="stat-label">Prom. Gasto/Mes</p>
-                <p class="stat-value text-orange-600">${{ number_format($promedioGastoMensual, 2) }}</p>
+                <p class="stat-value text-orange-600 break-words">${{ number_format($promedioGastoMensual, 2) }}</p>
             </div>
-            <div class="card">
+            <div class="card min-w-0">
                 <p class="stat-label">Mayor Gasto</p>
-                <p class="stat-value text-red-600">${{ number_format($mayorGasto, 2) }}</p>
+                <p class="stat-value text-red-600 break-words">${{ number_format($mayorGasto, 2) }}</p>
             </div>
-            <div class="card">
+            <div class="card min-w-0">
                 <p class="stat-label">Mayor Ingreso</p>
-                <p class="stat-value text-emerald-600">${{ number_format($mayorIngreso, 2) }}</p>
+                <p class="stat-value text-emerald-600 break-words">${{ number_format($mayorIngreso, 2) }}</p>
             </div>
-            <div class="card">
+            <div class="card min-w-0">
+                <p class="stat-label">Ahorro del Mes</p>
+                <p class="stat-value {{ $ahorroMes >= 0 ? 'text-emerald-600' : 'text-red-600' }} break-words">${{ number_format($ahorroMes, 2) }}</p>
+                <p class="text-xs {{ $tasaAhorro > 0 ? 'text-emerald-500' : 'text-red-400' }}">{{ $tasaAhorro }}%</p>
+            </div>
+            <div class="card min-w-0">
                 <p class="stat-label">Movimientos</p>
-                <p class="stat-value text-blue-600">{{ $totalMovimientos }}</p>
+                <p class="stat-value text-blue-600 break-words">{{ $totalMovimientos }}</p>
             </div>
         </div>
 
@@ -145,6 +150,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script>
     document.addEventListener("DOMContentLoaded", function () {
         const colores = ['#059669', '#d97706', '#dc2626', '#2563eb', '#7c3aed', '#0891b2', '#be123c', '#ca8a04'];
@@ -152,10 +158,13 @@
         const meses = @json($labelsMeses);
         const ingresos = @json($ingresosData);
         const egresos = @json($egresosData);
+        const ahorro = @json($ahorroPorMes);
         const evolucion = @json($saldoEvolucion);
         const tendencia = @json($tendenciaGastos);
         const catLabels = @json($egresosPorCategoria->keys());
         const catData = @json($egresosPorCategoria->values());
+
+        Chart.register(ChartDataLabels);
 
         function crear(ctxId, config) {
             const ctx = document.getElementById(ctxId);
@@ -169,7 +178,8 @@
                     labels: meses,
                     datasets: [
                         { label: 'Ingresos', data: ingresos, backgroundColor: '#059669', borderRadius: 4 },
-                        { label: 'Egresos', data: egresos, backgroundColor: '#dc2626', borderRadius: 4 }
+                        { label: 'Egresos', data: egresos, backgroundColor: '#dc2626', borderRadius: 4 },
+                        { label: 'Ahorro', data: ahorro, type: 'line', borderColor: '#2563eb', backgroundColor: 'transparent', tension: 0.4, pointBackgroundColor: '#2563eb', borderWidth: 2 }
                     ]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }
@@ -195,13 +205,26 @@
         }
 
         if (catLabels.length > 0) {
+            const totalCat = catData.reduce((a, b) => a + b, 0);
             crear('chartCategorias', {
                 type: 'doughnut',
                 data: {
                     labels: catLabels,
                     datasets: [{ data: catData, backgroundColor: colores.slice(0, catLabels.length), borderWidth: 0 }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { position: 'bottom', labels: { padding: 8, usePointStyle: true, font: { size: 10 } } } } }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 8, usePointStyle: true, font: { size: 10 } } },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 11 },
+                            formatter: (value) => totalCat > 0 ? ((value / totalCat) * 100).toFixed(1) + '%' : ''
+                        }
+                    }
+                }
             });
         }
     });

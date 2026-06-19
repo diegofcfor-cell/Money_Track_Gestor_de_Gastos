@@ -124,12 +124,15 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script>
     document.addEventListener("DOMContentLoaded", function () {
         const labels = @json($labels);
         const data = @json($data);
         const ctx = document.getElementById('chartDoughnut');
         if (ctx && labels.length > 0) {
+            Chart.register(ChartDataLabels);
+            const total = data.reduce((a, b) => a + b, 0);
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -146,7 +149,12 @@
                     cutout: '60%',
                     plugins: {
                         legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true, font: { size: 11 } } },
-                        tooltip: { callbacks: { label: function(c) { return c.label + ': $' + c.parsed.toFixed(2); } } }
+                        tooltip: { callbacks: { label: function(c) { return c.label + ': $' + c.parsed.toFixed(2); } } },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 11 },
+                            formatter: (value) => total > 0 ? ((value / total) * 100).toFixed(1) + '%' : ''
+                        }
                     }
                 }
             });
