@@ -52,45 +52,49 @@ class DashboardController extends Controller
             ->groupBy(fn($m) => $m->categoria->nombre ?? 'Sin categoría')
             ->map(fn($g) => $g->sum('monto'));
 
-        $ingresosPorMes = (clone $query)
-            ->where('tipo', 'ingreso')
-            ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes, SUM(monto) total'))
+        $mesesRaw = (clone $query)
+            ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes'))
             ->groupBy('año', 'mes')
             ->orderBy('año')
             ->orderBy('mes')
             ->get();
+
+        $labelsMeses = $mesesRaw->map(fn($r) => \Carbon\Carbon::create()->month($r->mes)->translatedFormat('M Y'))->toArray();
+
+        $ingresosPorMes = (clone $query)
+            ->where('tipo', 'ingreso')
+            ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes, SUM(monto) total'))
+            ->groupBy('año', 'mes')
+            ->get()
+            ->keyBy(fn($r) => $r->año . '-' . $r->mes);
 
         $egresosPorMes = (clone $query)
             ->where('tipo', 'egreso')
             ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes, SUM(monto) total'))
             ->groupBy('año', 'mes')
-            ->orderBy('año')
-            ->orderBy('mes')
-            ->get();
+            ->get()
+            ->keyBy(fn($r) => $r->año . '-' . $r->mes);
 
-        $labelsMeses = $ingresosPorMes->pluck('mes')->map(fn($m) => \Carbon\Carbon::create()->month($m)->translatedFormat('M'))
-            ->toArray();
-        $ingresosData = $ingresosPorMes->pluck('total')->toArray();
-        $egresosData = $egresosPorMes->pluck('total')->toArray();
-
+        $ingresosData = [];
+        $egresosData = [];
+        $ahorroPorMes = [];
         $saldoEvolucion = [];
         $acumulado = 0;
-        foreach ($ingresosPorMes as $i => $row) {
-            $egr = $egresosPorMes[$i]->total ?? 0;
-            $acumulado += ($row->total - $egr);
+
+        foreach ($mesesRaw as $r) {
+            $key = $r->año . '-' . $r->mes;
+            $ing = $ingresosPorMes[$key]->total ?? 0;
+            $egr = $egresosPorMes[$key]->total ?? 0;
+            $ingresosData[] = $ing;
+            $egresosData[] = $egr;
+            $ahorro = $ing - $egr;
+            $ahorroPorMes[] = $ahorro;
+            $acumulado += $ahorro;
             $saldoEvolucion[] = $acumulado;
         }
 
-        $tendenciaGastos = $egresosPorMes->pluck('total')->toArray();
-
         $ahorroMes = $ingresosMes - $egresosMes;
         $tasaAhorro = $ingresosMes > 0 ? round(($ahorroMes / $ingresosMes) * 100, 1) : 0;
-
-        $ahorroPorMes = [];
-        foreach ($ingresosPorMes as $i => $row) {
-            $egr = $egresosPorMes[$i]->total ?? 0;
-            $ahorroPorMes[] = $row->total - $egr;
-        }
 
         return view('panel', compact(
             'movimientos',
@@ -101,7 +105,7 @@ class DashboardController extends Controller
             'categoriaMasGastada',
             'egresosPorCategoria',
             'labelsMeses', 'ingresosData', 'egresosData',
-            'saldoEvolucion', 'tendenciaGastos', 'ahorroPorMes'
+            'saldoEvolucion', 'ahorroPorMes'
         ));
     }
 }

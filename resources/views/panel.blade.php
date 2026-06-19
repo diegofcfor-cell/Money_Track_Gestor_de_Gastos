@@ -73,11 +73,11 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             <div class="lg:col-span-2 card">
                 <h3 class="card-header">
-                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/></svg>
-                    Tendencia de Gastos
+                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Ahorro por Mes
                 </h3>
                 <div style="height: 260px;">
-                    <canvas id="chartTendencia"></canvas>
+                    <canvas id="chartAhorro"></canvas>
                 </div>
             </div>
             <div class="card">
@@ -160,7 +160,6 @@
         const egresos = @json($egresosData);
         const ahorro = @json($ahorroPorMes);
         const evolucion = @json($saldoEvolucion);
-        const tendencia = @json($tendenciaGastos);
         const catLabels = @json($egresosPorCategoria->keys());
         const catData = @json($egresosPorCategoria->values());
 
@@ -194,13 +193,25 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
 
-            crear('chartTendencia', {
-                type: 'line',
+            crear('chartAhorro', {
+                type: 'bar',
                 data: {
                     labels: meses,
-                    datasets: [{ label: 'Gastos', data: tendencia, borderColor: '#dc2626', backgroundColor: 'rgba(220,38,38,0.08)', fill: true, tension: 0.4 }]
+                    datasets: [{
+                        label: 'Ahorro',
+                        data: ahorro,
+                        backgroundColor: ahorro.map(v => v >= 0 ? '#059669' : '#dc2626'),
+                        borderRadius: 4
+                    }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
             });
         }
 
