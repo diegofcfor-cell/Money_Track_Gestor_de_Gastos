@@ -20,15 +20,15 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="card">
                 <p class="stat-label">Ingresos</p>
-                <p class="stat-value text-emerald-600">${{ number_format($totalIngresos, 2, ',', '.') }}</p>
+                <p class="stat-value text-emerald-600">${{ format_amount($totalIngresos, 2, ',', '.') }}</p>
             </div>
             <div class="card">
                 <p class="stat-label">Egresos</p>
-                <p class="stat-value text-red-600">${{ number_format($totalEgresos, 2, ',', '.') }}</p>
+                <p class="stat-value text-red-600">${{ format_amount($totalEgresos, 2, ',', '.') }}</p>
             </div>
             <div class="card">
                 <p class="stat-label">Saldo</p>
-                <p class="stat-value {{ $saldo >= 0 ? 'text-emerald-600' : 'text-red-600' }}">${{ number_format($saldo, 2, ',', '.') }}</p>
+                <p class="stat-value {{ $saldo >= 0 ? 'text-emerald-600' : 'text-red-600' }}">${{ format_amount($saldo, 2, ',', '.') }}</p>
             </div>
         </div>
 
@@ -48,25 +48,25 @@
                     Resumen Mensual
                 </h3>
                 <div class="overflow-x-auto" style="max-height: 300px; overflow-y: auto;">
-                    <table class="w-full text-sm">
+                    <table class="w-full text-xs sm:text-sm">
                         <thead>
                             <tr class="border-b border-gray-100">
-                                <th class="text-left py-2 px-3 font-semibold text-gray-600">Mes</th>
-                                <th class="text-right py-2 px-3 font-semibold text-gray-600">Ingresos</th>
-                                <th class="text-right py-2 px-3 font-semibold text-gray-600">Egresos</th>
-                                <th class="text-right py-2 px-3 font-semibold text-gray-600">Saldo</th>
+                                <th class="text-left py-1.5 px-2 sm:py-2 sm:px-3 font-semibold text-gray-600">Mes</th>
+                                <th class="text-right py-1.5 px-2 sm:py-2 sm:px-3 font-semibold text-gray-600">Ingresos</th>
+                                <th class="text-right py-1.5 px-2 sm:py-2 sm:px-3 font-semibold text-gray-600">Egresos</th>
+                                <th class="text-right py-1.5 px-2 sm:py-2 sm:px-3 font-semibold text-gray-600">Saldo</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($mensual as $m)
                             <tr class="border-b border-gray-50">
-                                <td class="py-2 px-3 text-gray-700">{{ $m['mes'] }}</td>
-                                <td class="py-2 px-3 text-right text-emerald-600">${{ number_format($m['ingresos'], 2, ',', '.') }}</td>
-                                <td class="py-2 px-3 text-right text-red-600">${{ number_format($m['egresos'], 2, ',', '.') }}</td>
-                                <td class="py-2 px-3 text-right font-semibold {{ $m['saldo'] >= 0 ? 'text-emerald-600' : 'text-red-600' }}">${{ number_format($m['saldo'], 2, ',', '.') }}</td>
+                                <td class="py-1.5 px-2 sm:py-2 sm:px-3 text-gray-700">{{ $m['mes'] }}</td>
+                                <td class="py-1.5 px-2 sm:py-2 sm:px-3 text-right text-emerald-600">${{ format_amount($m['ingresos'], 2, ',', '.') }}</td>
+                                <td class="py-1.5 px-2 sm:py-2 sm:px-3 text-right text-red-600">${{ format_amount($m['egresos'], 2, ',', '.') }}</td>
+                                <td class="py-1.5 px-2 sm:py-2 sm:px-3 text-right font-semibold {{ $m['saldo'] >= 0 ? 'text-emerald-600' : 'text-red-600' }}">${{ format_amount($m['saldo'], 2, ',', '.') }}</td>
                             </tr>
                             @empty
-                            <tr><td colspan="4" class="text-center py-8 text-gray-400">Sin datos</td></tr>
+                            <tr><td colspan="4" class="text-center py-8 text-gray-400 text-xs sm:text-sm">Sin datos</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -80,47 +80,47 @@
                 Todos los Movimientos ({{ $movimientos->count() }})
             </h3>
             <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b border-gray-100">
-                            <th class="text-left py-3 px-4 font-semibold text-gray-600">Fecha</th>
-                            <th class="text-left py-3 px-4 font-semibold text-gray-600">Tipo</th>
-                            <th class="text-left py-3 px-4 font-semibold text-gray-600">Categoría</th>
-                            <th class="text-right py-3 px-4 font-semibold text-gray-600">Monto</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($movimientos as $m)
-                        <tr class="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                            <td class="py-3 px-4 text-gray-600">{{ \Carbon\Carbon::parse($m->fecha)->format('d/m/Y') }}</td>
-                            <td class="py-3 px-4">
-                                @if ($m->tipo == 'ingreso')
-                                    <span class="badge-income">Ingreso</span>
-                                @elseif ($m->tipo == 'ahorro')
-                                    <span class="badge-income" style="background:#eef2ff;color:#4338ca;">Ahorro</span>
-                                @else
-                                    <span class="badge-expense">Egreso</span>
-                                @endif
-                            </td>
-                            <td class="py-3 px-4">
-                                <span class="text-gray-800">{{ $m->categoria->nombre ?? '' }}</span>
-                                @if ($m->subcategoria->nombre ?? false)
-                                    <span class="text-gray-400 text-xs"> / {{ $m->subcategoria->nombre }}</span>
-                                @endif
-                            </td>
-                            <td class="py-3 px-4 text-right font-semibold {{ $m->tipo == 'ingreso' ? 'text-emerald-600' : ($m->tipo == 'ahorro' ? 'text-indigo-600' : 'text-red-600') }}">
-                                ${{ number_format($m->monto, 2, ',', '.') }}
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="4" class="text-center py-12 text-gray-400">
-                                <p class="text-sm">No hay movimientos en este período</p>
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                    <table class="w-full text-xs sm:text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-100">
+                                <th class="text-left py-2 px-2 sm:py-3 sm:px-4 font-semibold text-gray-600">Fecha</th>
+                                <th class="text-left py-2 px-2 sm:py-3 sm:px-4 font-semibold text-gray-600">Tipo</th>
+                                <th class="text-left py-2 px-2 sm:py-3 sm:px-4 font-semibold text-gray-600">Categoría</th>
+                                <th class="text-right py-2 px-2 sm:py-3 sm:px-4 font-semibold text-gray-600">Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($movimientos as $m)
+                            <tr class="border-b border-gray-50 hover:bg-gray-50/50 dark:border-gray-700 dark:hover:bg-gray-700/50 transition-colors">
+                                <td class="py-2 px-2 sm:py-3 sm:px-4 text-gray-600">{{ \Carbon\Carbon::parse($m->fecha)->format('d/m/Y') }}</td>
+                                <td class="py-2 px-2 sm:py-3 sm:px-4">
+                                    @if ($m->tipo == 'ingreso')
+                                        <span class="badge-income">Ingreso</span>
+                                    @elseif ($m->tipo == 'ahorro')
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400">Ahorro</span>
+                                    @else
+                                        <span class="badge-expense">Egreso</span>
+                                    @endif
+                                </td>
+                                <td class="py-2 px-2 sm:py-3 sm:px-4">
+                                    <span class="text-gray-800 text-xs sm:text-sm">{{ $m->categoria->nombre ?? '' }}</span>
+                                    @if ($m->subcategoria->nombre ?? false)
+                                        <span class="text-gray-400 text-[10px] sm:text-xs"> / {{ $m->subcategoria->nombre }}</span>
+                                    @endif
+                                </td>
+                                <td class="py-2 px-2 sm:py-3 sm:px-4 text-right font-semibold text-xs sm:text-sm {{ $m->tipo == 'ingreso' ? 'text-emerald-600' : ($m->tipo == 'ahorro' ? 'text-indigo-600' : 'text-red-600') }}">
+                                    ${{ format_amount($m->monto, 2, ',', '.') }}
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="4" class="text-center py-12 text-gray-400">
+                                    <p class="text-xs sm:text-sm">No hay movimientos en este período</p>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
             </div>
         </div>
     </div>

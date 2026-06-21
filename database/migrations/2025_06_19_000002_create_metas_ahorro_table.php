@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('metas_ahorro', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('nombre');
             $table->decimal('monto_objetivo', 12, 2);
             $table->decimal('monto_actual', 12, 2)->default(0);

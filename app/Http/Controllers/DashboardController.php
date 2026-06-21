@@ -43,18 +43,19 @@ class DashboardController extends Controller
             ->avg('total') ?? 0;
 
         $categoriaMasGastada = (clone $query)
-            ->where('tipo', 'egreso')
-            ->select('categoria_id', DB::raw('SUM(monto) total'))
-            ->groupBy('categoria_id')
+            ->where('movimientos.tipo', 'egreso')
+            ->join('categorias', 'movimientos.categoria_id', '=', 'categorias.id')
+            ->select('categorias.id as categoria_id', 'categorias.nombre', DB::raw('SUM(movimientos.monto) total'))
+            ->groupBy('categorias.id', 'categorias.nombre')
             ->orderByDesc('total')
-            ->with('categoria')
             ->first();
 
         $egresosPorCategoria = (clone $query)
-            ->where('tipo', 'egreso')
-            ->get()
-            ->groupBy(fn($m) => $m->categoria->nombre ?? 'Sin categoría')
-            ->map(fn($g) => $g->sum('monto'));
+            ->where('movimientos.tipo', 'egreso')
+            ->join('categorias', 'movimientos.categoria_id', '=', 'categorias.id')
+            ->select('categorias.nombre', DB::raw('SUM(movimientos.monto) total'))
+            ->groupBy('categorias.nombre')
+            ->pluck('total', 'nombre');
 
         $mesesRaw = (clone $query)
             ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes'))
@@ -79,29 +80,13 @@ class DashboardController extends Controller
             ->get()
             ->keyBy(fn($r) => $r->año . '-' . $r->mes);
 
-        $ahorroPorMesRaw = (clone $query)
-            ->where('tipo', 'ahorro')
-            ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes, SUM(monto) total'))
-            ->groupBy('año', 'mes')
-            ->get()
-            ->keyBy(fn($r) => $r->año . '-' . $r->mes);
-
         $ingresosData = [];
         $egresosData = [];
-        $ahorroPorMes = [];
-        $saldoEvolucion = [];
-        $acumulado = 0;
 
         foreach ($mesesRaw as $r) {
             $key = $r->año . '-' . $r->mes;
-            $ing = $ingresosPorMes[$key]->total ?? 0;
-            $egr = $egresosPorMes[$key]->total ?? 0;
-            $ahv = $ahorroPorMesRaw[$key]->total ?? 0;
-            $ingresosData[] = $ing;
-            $egresosData[] = $egr;
-            $ahorroPorMes[] = $ahv;
-            $acumulado += ($ing - $egr);
-            $saldoEvolucion[] = $acumulado;
+            $ingresosData[] = $ingresosPorMes[$key]->total ?? 0;
+            $egresosData[] = $egresosPorMes[$key]->total ?? 0;
         }
 
         $tasaAhorro = $ingresosMes > 0 ? round(($ahorroMes / $ingresosMes) * 100, 1) : 0;
@@ -117,9 +102,9 @@ class DashboardController extends Controller
             ->where('tipo', 'egreso')
             ->whereMonth('fecha', now()->month)
             ->whereYear('fecha', now()->year)
-            ->get()
+            ->select('categoria_id', DB::raw('SUM(monto) total'))
             ->groupBy('categoria_id')
-            ->map(fn($g) => $g->sum('monto'));
+            ->pluck('total', 'categoria_id');
 
         foreach ($presupuestos as $p) {
             $gastado = $gastosDelMes->get($p->categoria_id, 0);
@@ -157,7 +142,6 @@ class DashboardController extends Controller
             'categoriaMasGastada',
             'egresosPorCategoria',
             'labelsMeses', 'ingresosData', 'egresosData',
-            'saldoEvolucion', 'ahorroPorMes',
             'alertsPresupuesto', 'metasDashboard'
         ));
     }

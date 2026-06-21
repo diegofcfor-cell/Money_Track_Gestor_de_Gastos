@@ -12,6 +12,7 @@ class MetaAhorroController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'monto_objetivo' => 'required|numeric|min:1',
+            'monto_actual' => 'nullable|numeric|min:0',
             'fecha_limite' => 'nullable|date',
         ]);
 

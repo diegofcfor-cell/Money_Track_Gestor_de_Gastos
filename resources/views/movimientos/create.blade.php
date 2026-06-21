@@ -56,12 +56,12 @@
                     </select>
                 </div>
 
-                <div class="flex items-center gap-3 pt-2">
-                    <button type="submit" class="btn-success">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                    <button type="submit" class="btn-success justify-center">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         Guardar Movimiento
                     </button>
-                    <a href="{{ route('panel') }}" class="btn-primary bg-gray-200 text-gray-700 hover:bg-gray-300">
+                    <a href="{{ route('panel') }}" class="btn-primary bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500 justify-center">
                         Cancelar
                     </a>
                 </div>

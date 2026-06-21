@@ -13,41 +13,41 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-9 gap-2 sm:gap-3 mb-8">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Ingresos">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 mb-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-3 sm:p-4 min-w-0" title="Ingresos">
                 <p class="stat-label truncate">Ingresos</p>
-                <p class="stat-value text-emerald-600 truncate">${{ number_format($totalIngresos, 2, ',', '.') }}</p>
+                <p class="stat-value text-emerald-600 truncate">${{ format_amount($totalIngresos, 2, ',', '.') }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Egresos">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-3 sm:p-4 min-w-0" title="Egresos">
                 <p class="stat-label truncate">Egresos</p>
-                <p class="stat-value text-red-600 truncate">${{ number_format($totalEgresos, 2, ',', '.') }}</p>
+                <p class="stat-value text-red-600 truncate">${{ format_amount($totalEgresos, 2, ',', '.') }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Saldo">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-3 sm:p-4 min-w-0" title="Saldo">
                 <p class="stat-label truncate">Saldo</p>
-                <p class="stat-value {{ $saldo >= 0 ? 'text-emerald-600' : 'text-red-600' }} truncate">${{ number_format($saldo, 2, ',', '.') }}</p>
+                <p class="stat-value {{ $saldo >= 0 ? 'text-emerald-600' : 'text-red-600' }} truncate">${{ format_amount($saldo, 2, ',', '.') }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Prom. Gasto/Mes">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-3 sm:p-4 min-w-0" title="Prom. Gasto/Mes">
                 <p class="stat-label truncate">Prom. Gasto/Mes</p>
-                <p class="stat-value text-orange-600 truncate">${{ number_format($promedioGastoMensual, 2, ',', '.') }}</p>
+                <p class="stat-value text-orange-600 truncate">${{ format_amount($promedioGastoMensual, 2, ',', '.') }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Mayor Gasto">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-3 sm:p-4 min-w-0" title="Mayor Gasto">
                 <p class="stat-label truncate">Mayor Gasto</p>
-                <p class="stat-value text-red-600 truncate">${{ number_format($mayorGasto, 2, ',', '.') }}</p>
+                <p class="stat-value text-red-600 truncate">${{ format_amount($mayorGasto, 2, ',', '.') }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Mayor Ingreso">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-3 sm:p-4 min-w-0" title="Mayor Ingreso">
                 <p class="stat-label truncate">Mayor Ingreso</p>
-                <p class="stat-value text-emerald-600 truncate">${{ number_format($mayorIngreso, 2, ',', '.') }}</p>
+                <p class="stat-value text-emerald-600 truncate">${{ format_amount($mayorIngreso, 2, ',', '.') }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Total Ahorrado">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-3 sm:p-4 min-w-0" title="Total Ahorrado">
                 <p class="stat-label truncate">Total Ahorrado</p>
-                <p class="stat-value text-indigo-600 truncate">${{ number_format($totalAhorro, 2, ',', '.') }}</p>
+                <p class="stat-value text-indigo-600 truncate">${{ format_amount($totalAhorro, 2, ',', '.') }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Ahorro del Mes">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-3 sm:p-4 min-w-0" title="Ahorro del Mes">
                 <p class="stat-label truncate">Ahorro del Mes</p>
-                <p class="stat-value text-indigo-600 truncate">${{ number_format($ahorroMes, 2, ',', '.') }}</p>
+                <p class="stat-value text-indigo-600 truncate">${{ format_amount($ahorroMes, 2, ',', '.') }}</p>
                 <p class="text-xs text-indigo-400">{{ $tasaAhorro }}%</p>
             </div>
-            <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 min-w-0" title="Movimientos">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-3 sm:p-4 min-w-0" title="Movimientos">
                 <p class="stat-label truncate">Movimientos</p>
                 <p class="stat-value text-blue-600 truncate">{{ $totalMovimientos }}</p>
             </div>
@@ -65,7 +65,7 @@
                 <div class="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                     <div>
                         <span class="text-sm font-medium text-gray-800">{{ $alert->categoria->nombre }}</span>
-                        <span class="text-xs text-gray-400 ml-2">${{ number_format($alert->gastado, 0, ',', '.') }} / ${{ number_format($alert->limite, 0, ',', '.') }}</span>
+                        <span class="text-xs text-gray-400 ml-2">${{ format_amount($alert->gastado, 0, ',', '.') }} / ${{ format_amount($alert->limite, 0, ',', '.') }}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <span class="text-xs font-semibold {{ $alert->excedido ? 'text-red-600' : 'text-orange-500' }}">{{ $alert->porcentaje }}%</span>
@@ -89,7 +89,7 @@
                 <div class="mb-3 last:mb-0">
                     <div class="flex items-center justify-between mb-1">
                         <span class="text-sm font-medium text-gray-800">{{ $meta->nombre }}</span>
-                        <span class="text-xs text-gray-500">${{ number_format($meta->monto_actual, 0, ',', '.') }} / ${{ number_format($meta->monto_objetivo, 0, ',', '.') }}</span>
+                        <span class="text-xs text-gray-500">${{ format_amount($meta->monto_actual, 0, ',', '.') }} / ${{ format_amount($meta->monto_objetivo, 0, ',', '.') }}</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-2">
                         <div class="h-2 rounded-full {{ $meta->completada ? 'bg-emerald-500' : 'bg-blue-500' }}" style="width: {{ $meta->progreso }}%"></div>
@@ -102,37 +102,19 @@
         </div>
         @endif
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div class="grid grid-cols-1 gap-6 mb-8">
             <div class="card">
                 <h3 class="card-header">
                     <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                    Ingresos vs Egresos vs Ahorro
+                    Ingresos vs Egresos
                 </h3>
                 <div style="height: 260px;">
                     <canvas id="chartIngresosEgresos"></canvas>
                 </div>
             </div>
-            <div class="card">
-                <h3 class="card-header">
-                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-                    Evolución del Saldo
-                </h3>
-                <div style="height: 260px;">
-                    <canvas id="chartEvolucionSaldo"></canvas>
-                </div>
-            </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-            <div class="lg:col-span-2 card">
-                <h3 class="card-header">
-                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    Ahorro por Mes
-                </h3>
-                <div style="height: 260px;">
-                    <canvas id="chartAhorro"></canvas>
-                </div>
-            </div>
+        <div class="grid grid-cols-1 gap-6 mb-8">
             <div class="card">
                 <h3 class="card-header">
                     <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/></svg>
@@ -142,8 +124,8 @@
                     <canvas id="chartCategorias"></canvas>
                 </div>
                 <div class="mt-3 text-xs text-gray-500">
-                    @if($categoriaMasGastada && $categoriaMasGastada->categoria)
-                        <p>Más gastada: <strong>{{ $categoriaMasGastada->categoria->nombre }}</strong> (${{ number_format($categoriaMasGastada->total, 2, ',', '.') }})</p>
+                    @if($categoriaMasGastada)
+                        <p>Más gastada: <strong>{{ $categoriaMasGastada->nombre }}</strong> (${{ format_amount($categoriaMasGastada->total, 2, ',', '.') }})</p>
                     @endif
                 </div>
             </div>
@@ -161,33 +143,33 @@
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b border-gray-100">
-                            <th class="text-left py-3 px-4 font-semibold text-gray-600">Fecha</th>
-                            <th class="text-left py-3 px-4 font-semibold text-gray-600">Tipo</th>
-                            <th class="text-left py-3 px-4 font-semibold text-gray-600">Categoría</th>
-                            <th class="text-right py-3 px-4 font-semibold text-gray-600">Monto</th>
+                            <th class="text-left py-2 px-2 sm:py-3 sm:px-4 font-semibold text-gray-600 text-xs sm:text-sm">Fecha</th>
+                            <th class="text-left py-2 px-2 sm:py-3 sm:px-4 font-semibold text-gray-600 text-xs sm:text-sm">Tipo</th>
+                            <th class="text-left py-2 px-2 sm:py-3 sm:px-4 font-semibold text-gray-600 text-xs sm:text-sm">Categoría</th>
+                            <th class="text-right py-2 px-2 sm:py-3 sm:px-4 font-semibold text-gray-600 text-xs sm:text-sm">Monto</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($movimientos as $m)
-                        <tr class="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                            <td class="py-3 px-4 text-gray-600">{{ \Carbon\Carbon::parse($m->fecha)->format('d/m/Y') }}</td>
-                            <td class="py-3 px-4">
+                        <tr class="border-b border-gray-50 hover:bg-gray-50/50 dark:border-gray-700 dark:hover:bg-gray-700/50 transition-colors">
+                            <td class="py-2 px-2 sm:py-3 sm:px-4 text-gray-600 text-xs sm:text-sm">{{ \Carbon\Carbon::parse($m->fecha)->format('d/m/Y') }}</td>
+                            <td class="py-2 px-2 sm:py-3 sm:px-4">
                                 @if ($m->tipo == 'ingreso')
                                     <span class="badge-income">Ingreso</span>
                                 @elseif ($m->tipo == 'ahorro')
-                                    <span class="badge-income" style="background:#eef2ff;color:#4338ca;">Ahorro</span>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400">Ahorro</span>
                                 @else
                                     <span class="badge-expense">Egreso</span>
                                 @endif
                             </td>
-                            <td class="py-3 px-4">
-                                <span class="text-gray-800">{{ $m->categoria->nombre ?? '' }}</span>
+                            <td class="py-2 px-2 sm:py-3 sm:px-4">
+                                <span class="text-gray-800 text-xs sm:text-sm">{{ $m->categoria->nombre ?? '' }}</span>
                                 @if ($m->subcategoria->nombre ?? false)
-                                    <span class="text-gray-400 text-xs"> / {{ $m->subcategoria->nombre }}</span>
+                                    <span class="text-gray-400 text-[10px] sm:text-xs"> / {{ $m->subcategoria->nombre }}</span>
                                 @endif
                             </td>
-                            <td class="py-3 px-4 text-right font-semibold {{ $m->tipo == 'ingreso' ? 'text-emerald-600' : 'text-red-600' }}">
-                                ${{ number_format($m->monto, 2, ',', '.') }}
+                            <td class="py-2 px-2 sm:py-3 sm:px-4 text-right font-semibold text-xs sm:text-sm {{ $m->tipo == 'ingreso' ? 'text-emerald-600' : ($m->tipo == 'ahorro' ? 'text-indigo-600' : 'text-red-600') }}">
+                                ${{ format_amount($m->monto, 2, ',', '.') }}
                             </td>
                         </tr>
                         @empty
@@ -213,8 +195,6 @@
         const meses = @json($labelsMeses);
         const ingresos = @json($ingresosData);
         const egresos = @json($egresosData);
-        const ahorro = @json($ahorroPorMes);
-        const evolucion = @json($saldoEvolucion);
         const catLabels = @json($egresosPorCategoria->keys());
         const catData = @json($egresosPorCategoria->values());
 
@@ -232,42 +212,12 @@
                     labels: meses,
                     datasets: [
                         { label: 'Ingresos', data: ingresos, backgroundColor: '#059669', borderRadius: 4 },
-                        { label: 'Egresos', data: egresos, backgroundColor: '#dc2626', borderRadius: 4 },
-                        { label: 'Ahorro', data: ahorro, backgroundColor: '#4338ca', borderRadius: 4 }
+                        { label: 'Egresos', data: egresos, backgroundColor: '#dc2626', borderRadius: 4 }
                     ]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }
             });
 
-            crear('chartEvolucionSaldo', {
-                type: 'line',
-                data: {
-                    labels: meses,
-                    datasets: [{ label: 'Saldo', data: evolucion, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, tension: 0.4 }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
-
-            crear('chartAhorro', {
-                type: 'bar',
-                data: {
-                    labels: meses,
-                    datasets: [{
-                        label: 'Ahorro',
-                        data: ahorro,
-                        backgroundColor: ahorro.map(v => v >= 0 ? '#059669' : '#dc2626'),
-                        borderRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true }
-                    }
-                }
-            });
         }
 
         if (catLabels.length > 0) {

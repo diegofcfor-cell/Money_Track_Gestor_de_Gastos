@@ -9,14 +9,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('movimientos', function (Blueprint $table) {
-            $table->foreignId('meta_ahorro_id')->nullable()->constrained()->cascadeOnDelete()->after('subcategoria_id');
+            $table->index('fecha');
         });
     }
 
     public function down(): void
     {
         Schema::table('movimientos', function (Blueprint $table) {
-            $table->dropColumn('meta_ahorro_id');
+            $table->dropIndex(['fecha']);
         });
     }
 };

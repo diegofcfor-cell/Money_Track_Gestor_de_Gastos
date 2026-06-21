@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('presupuestos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedInteger('categoria_id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('categoria_id')->constrained()->cascadeOnDelete();
             $table->decimal('limite_mensual', 12, 2);
             $table->tinyInteger('mes');
             $table->smallInteger('año');

@@ -32,10 +32,23 @@
 
                 <div>
                     <label class="form-label">Categoría</label>
-                    <select name="categoria_id" class="form-select">
-                        @foreach($categorias as $c)
-                            <option value="{{ $c->id }}" {{ $movimiento->categoria_id == $c->id ? 'selected' : '' }}>
-                                {{ $c->nombre }}
+                <select id="categoria" name="categoria_id" class="form-select">
+                    <option value="">Seleccione una categoría</option>
+                    @foreach($categorias as $c)
+                        <option value="{{ $c->id }}" {{ $movimiento->categoria_id == $c->id ? 'selected' : '' }}>
+                            {{ $c->nombre }}
+                        </option>
+                    @endforeach
+                </select>
+                </div>
+
+                <div>
+                    <label class="form-label">Subcategoría</label>
+                    <select id="subcategoria" name="subcategoria_id" class="form-select">
+                        <option value="">Seleccione subcategoría</option>
+                        @foreach ($subcategorias as $sub)
+                            <option value="{{ $sub->id }}" data-categoria="{{ $sub->categoria_id }}" {{ $movimiento->subcategoria_id == $sub->id ? 'selected' : '' }}>
+                                {{ $sub->nombre }}
                             </option>
                         @endforeach
                     </select>
@@ -51,12 +64,12 @@
                     </select>
                 </div>
 
-                <div class="flex items-center gap-3 pt-2">
-                    <button type="submit" class="btn-primary">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                    <button type="submit" class="btn-primary justify-center">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         Actualizar Movimiento
                     </button>
-                    <a href="{{ route('panel') }}" class="btn-primary bg-gray-200 text-gray-700 hover:bg-gray-300">
+                    <a href="{{ route('panel') }}" class="btn-primary bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500 justify-center">
                         Cancelar
                     </a>
                 </div>
@@ -72,6 +85,23 @@
             metaField.style.display = tipoSelect.value === 'ahorro' ? 'block' : 'none';
         }
         tipoSelect.addEventListener('change', toggleMeta);
+
+        const categoriaSelect = document.getElementById('categoria');
+        const subcategoriaSelect = document.getElementById('subcategoria');
+
+        function filtrarSubcategorias() {
+            const categoriaId = categoriaSelect.value;
+            const options = subcategoriaSelect.querySelectorAll('option');
+            options.forEach(function(opt) {
+                if (opt.value === '') return;
+                opt.style.display = opt.getAttribute('data-categoria') === categoriaId ? 'block' : 'none';
+            });
+            if (subcategoriaSelect.selectedOptions[0] && subcategoriaSelect.selectedOptions[0].style.display === 'none') {
+                subcategoriaSelect.value = '';
+            }
+        }
+        categoriaSelect.addEventListener('change', filtrarSubcategorias);
+        filtrarSubcategorias();
     });
     </script>
 </x-app-layout>

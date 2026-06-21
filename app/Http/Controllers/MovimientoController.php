@@ -9,17 +9,20 @@ use App\Models\MetaAhorro;
 use App\Http\Requests\StoreMovimientoRequest;
 use App\Http\Requests\UpdateMovimientoRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MovimientoController extends Controller
 {
     private function actualizarMeta($metaId, $monto, bool $sumar): void
     {
         if (!$metaId) return;
-        $meta = MetaAhorro::where('id', $metaId)->where('user_id', auth()->id())->first();
-        if ($meta) {
-            $meta->monto_actual = max(0, $meta->monto_actual + ($sumar ? $monto : -$monto));
-            $meta->save();
-        }
+        DB::transaction(function () use ($metaId, $monto, $sumar) {
+            $meta = MetaAhorro::where('id', $metaId)->where('user_id', auth()->id())->lockForUpdate()->first();
+            if ($meta) {
+                $meta->monto_actual = max(0, $meta->monto_actual + ($sumar ? $monto : -$monto));
+                $meta->save();
+            }
+        });
     }
 
     private function recalcularMeta(Movimiento $old, array $newData): void
@@ -88,9 +91,10 @@ class MovimientoController extends Controller
     		->where('user_id', auth()->id())
     		->firstOrFail();
         $categorias = Categoria::all();
+        $subcategorias = Subcategoria::all();
         $metas = MetaAhorro::where('user_id', auth()->id())->get();
 
-        return view('movimientos.edit', compact('movimiento', 'categorias', 'metas'));
+        return view('movimientos.edit', compact('movimiento', 'categorias', 'subcategorias', 'metas'));
     }
 
     public function update(UpdateMovimientoRequest $request, $id)

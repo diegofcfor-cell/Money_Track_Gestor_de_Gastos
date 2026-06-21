@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Presupuesto;
 use App\Models\Categoria;
+use App\Models\MetaAhorro;
+use App\Models\Movimiento;
+use Illuminate\Support\Facades\DB;
 
 class PresupuestoController extends Controller
 {
@@ -18,15 +21,15 @@ class PresupuestoController extends Controller
             ->where('año', now()->year)
             ->get();
 
-        $metas = \App\Models\MetaAhorro::where('user_id', $userId)->get();
+        $metas = MetaAhorro::where('user_id', $userId)->get();
 
-        $gastosDelMes = \App\Models\Movimiento::where('user_id', $userId)
+        $gastosDelMes = Movimiento::where('user_id', $userId)
             ->where('tipo', 'egreso')
             ->whereMonth('fecha', now()->month)
             ->whereYear('fecha', now()->year)
-            ->get()
+            ->select('categoria_id', DB::raw('SUM(monto) total'))
             ->groupBy('categoria_id')
-            ->map(fn($g) => $g->sum('monto'));
+            ->pluck('total', 'categoria_id');
 
         return view('presupuestos.index', compact('categorias', 'presupuestos', 'metas', 'gastosDelMes'));
     }

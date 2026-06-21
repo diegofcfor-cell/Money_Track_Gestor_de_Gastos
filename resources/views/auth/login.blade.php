@@ -312,13 +312,13 @@ body {
 
             <div class="form-group">
                 <label>Email</label>
-                <input id="email" type="email" name="email" :value="old('email')" required autofocus placeholder="tu@email.com">
+                <input id="email" type="email" name="email" :value="old('email')" required autofocus autocomplete="email" placeholder="tu@email.com">
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
             <div class="form-group">
                 <label>Contraseña</label>
-                <input id="password" type="password" name="password" required placeholder="••••••••">
+                <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="••••••••">
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
 

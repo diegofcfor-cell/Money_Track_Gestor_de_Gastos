@@ -27,7 +27,7 @@
                             <label class="form-label">Límite mensual ($)</label>
                             <input type="number" name="limite_mensual" class="form-input" step="0.01" min="0" required placeholder="500.00">
                         </div>
-                        <div class="flex items-end">
+                        <div class="flex items-end sm:col-span-1">
                             <button type="submit" class="btn-primary w-full justify-center">Asignar</button>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                         <div class="flex items-center justify-between mb-1">
                             <div>
                                 <span class="text-sm font-medium text-gray-800">{{ $p->categoria->nombre }}</span>
-                                <span class="text-xs text-gray-400 ml-2">${{ number_format($gastado, 2, ',', '.') }} / ${{ number_format($p->limite_mensual, 2, ',', '.') }}</span>
+                                <span class="text-xs text-gray-400 ml-2">${{ format_amount($gastado) }} / ${{ format_amount($p->limite_mensual) }}</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="text-xs font-semibold {{ $excedido ? 'text-red-600' : 'text-emerald-600' }}">
@@ -57,7 +57,7 @@
                                 <form action="{{ route('presupuestos.destroy', $p->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-gray-400 hover:text-red-500 transition-colors" onclick="return confirm('¿Eliminar presupuesto?')">
+                                    <button type="submit" class="p-2 -m-2 text-gray-400 hover:text-red-500 transition-colors" onclick="return confirm('¿Eliminar presupuesto?')">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                     </button>
                                 </form>
@@ -125,7 +125,7 @@
                                 <form action="{{ route('metas.destroy', $meta->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-gray-400 hover:text-red-500 transition-colors" onclick="return confirm('¿Eliminar meta?')">
+                                    <button type="submit" class="p-2 -m-2 text-gray-400 hover:text-red-500 transition-colors" onclick="return confirm('¿Eliminar meta?')">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                     </button>
                                 </form>
@@ -137,7 +137,7 @@
                         <div class="flex justify-between mt-1">
                             <span class="text-xs text-gray-400">{{ $progreso }}% completado</span>
                             @if (!$completada && $meta->monto_actual > 0)
-                                <span class="text-xs text-gray-400">Faltan ${{ number_format($meta->monto_objetivo - $meta->monto_actual, 2, ',', '.') }}</span>
+                                <span class="text-xs text-gray-400">Faltan ${{ format_amount($meta->monto_objetivo - $meta->monto_actual) }}</span>
                             @endif
                         </div>
                     </div>

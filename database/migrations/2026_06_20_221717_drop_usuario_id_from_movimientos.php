@@ -6,17 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::table('movimientos', function (Blueprint $table) {
-            $table->foreignId('meta_ahorro_id')->nullable()->constrained()->cascadeOnDelete()->after('subcategoria_id');
+            $table->dropColumn('usuario_id');
         });
     }
 
     public function down(): void
     {
         Schema::table('movimientos', function (Blueprint $table) {
-            $table->dropColumn('meta_ahorro_id');
+            $table->integer('usuario_id')->nullable();
         });
     }
 };
