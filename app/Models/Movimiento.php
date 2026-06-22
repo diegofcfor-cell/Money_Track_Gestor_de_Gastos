@@ -16,7 +16,8 @@ class Movimiento extends Model
         'monto',
         'fecha',
         'categoria_id',
-        'subcategoria_id'
+        'subcategoria_id',
+        'meta_ahorro_id'
     ];
 
     public $timestamps = false;
@@ -36,6 +37,11 @@ class Movimiento extends Model
     public function subcategoria()
     {
     	return $this->belongsTo(Subcategoria::class);
+    }
+
+    public function metaAhorro()
+    {
+        return $this->belongsTo(MetaAhorro::class);
     }
 
 

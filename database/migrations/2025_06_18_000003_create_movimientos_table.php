@@ -11,10 +11,10 @@ return new class extends Migration
         Schema::create('movimientos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->enum('tipo', ['ingreso', 'egreso']);
+            $table->string('tipo');
             $table->decimal('monto', 10, 2);
             $table->date('fecha');
-            $table->foreignId('categoria_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('categoria_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('subcategoria_id')->nullable()->constrained()->cascadeOnDelete();
         });
     }

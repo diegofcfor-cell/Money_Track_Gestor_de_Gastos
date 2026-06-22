@@ -2,44 +2,131 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    .dark body {
+        @apply bg-gray-950 text-gray-200;
+    }
+    .dark th {
+        --tw-text-opacity: 1;
+        color: rgb(209 213 219 / var(--tw-text-opacity));
+    }
+    .dark td {
+        --tw-text-opacity: 1;
+        color: rgb(209 213 219 / var(--tw-text-opacity));
+    }
+    .dark .bg-white {
+        --tw-bg-opacity: 1;
+        background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+    }
+    .dark .bg-gray-50 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+    }
+    .dark .bg-gray-100 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+    }
+    .dark .bg-gray-200 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+    }
+    .dark .text-gray-900 {
+        --tw-text-opacity: 1;
+        color: rgb(243 244 246 / var(--tw-text-opacity));
+    }
+    .dark .text-gray-800 {
+        --tw-text-opacity: 1;
+        color: rgb(229 231 235 / var(--tw-text-opacity));
+    }
+    .dark .text-gray-700 {
+        --tw-text-opacity: 1;
+        color: rgb(209 213 219 / var(--tw-text-opacity));
+    }
+    .dark .text-gray-600 {
+        --tw-text-opacity: 1;
+        color: rgb(156 163 175 / var(--tw-text-opacity));
+    }
+    .dark .text-gray-500 {
+        --tw-text-opacity: 1;
+        color: rgb(156 163 175 / var(--tw-text-opacity));
+    }
+    .dark .text-gray-400 {
+        --tw-text-opacity: 1;
+        color: rgb(107 114 128 / var(--tw-text-opacity));
+    }
+    .dark .border-gray-100 {
+        --tw-border-opacity: 1;
+        border-color: rgb(55 65 81 / var(--tw-border-opacity));
+    }
+    .dark .border-gray-200 {
+        --tw-border-opacity: 1;
+        border-color: rgb(55 65 81 / var(--tw-border-opacity));
+    }
+    .dark .border-gray-300 {
+        --tw-border-opacity: 1;
+        border-color: rgb(75 85 99 / var(--tw-border-opacity));
+    }
+    .dark .hover\:bg-gray-50:hover {
+        --tw-bg-opacity: 1;
+        background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+    }
+    .dark .hover\:bg-gray-100:hover {
+        --tw-bg-opacity: 1;
+        background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+    }
+    .dark [x-data="{ open: false }"] .origin-top-right {
+        --tw-bg-opacity: 1;
+        background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+        --tw-border-opacity: 1;
+        border-color: rgb(55 65 81 / var(--tw-border-opacity));
+    }
+    .dark .origin-top-right .text-gray-700 {
+        --tw-text-opacity: 1;
+        color: rgb(229 231 235 / var(--tw-text-opacity));
+    }
+}
+
 @layer components {
     .card {
-        @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6;
+        @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6 dark:bg-gray-800 dark:border-gray-700;
     }
     .card-header {
-        @apply text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2;
+        @apply text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2 dark:text-gray-100;
     }
     .stat-value {
-        @apply text-2xl font-bold;
+        @apply text-lg sm:text-xl font-bold leading-tight;
+    }
+    .stat-value-sm {
+        @apply text-base sm:text-lg font-bold leading-tight;
     }
     .stat-label {
-        @apply text-sm text-gray-500;
+        @apply text-sm text-gray-500 dark:text-gray-400;
     }
     .btn-primary {
-        @apply inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white rounded-lg font-medium text-sm hover:bg-gray-800 transition-colors;
+        @apply inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white rounded-lg font-medium text-sm hover:bg-gray-800 transition-colors dark:bg-gray-700 dark:hover:bg-gray-600;
     }
     .btn-success {
         @apply inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 text-white rounded-lg font-medium text-sm hover:bg-emerald-700 transition-colors;
     }
     .btn-danger {
-        @apply inline-flex items-center gap-2 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors;
+        @apply inline-flex items-center gap-2 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50;
     }
     .btn-warning {
-        @apply inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-600 rounded-lg text-sm font-medium hover:bg-amber-100 transition-colors;
+        @apply inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-600 rounded-lg text-sm font-medium hover:bg-amber-100 transition-colors dark:bg-amber-900/30 dark:text-amber-400 dark:hover:bg-amber-900/50;
     }
     .form-input {
-        @apply w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 text-sm;
+        @apply w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:focus:border-gray-400 dark:focus:ring-gray-400;
     }
     .form-label {
-        @apply block text-sm font-medium text-gray-700 mb-1;
+        @apply block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300;
     }
     .form-select {
-        @apply w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 text-sm;
+        @apply w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:focus:border-gray-400 dark:focus:ring-gray-400;
     }
     .badge-income {
-        @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700;
+        @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400;
     }
     .badge-expense {
-        @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700;
+        @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400;
     }
 }
