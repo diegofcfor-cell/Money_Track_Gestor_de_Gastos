@@ -76,10 +76,7 @@ php artisan db:seed
 php artisan serve
 ```
 
-Acceder a `http://127.0.0.1:8000` e iniciar sesión con:
-
-- **Email:** nieva.cronos@gmail.com
-- **Password:** (consultar al administrador)
+Acceder a `http://127.0.0.1:8000` y registrar un usuario nuevo.
 
 ## Rutas principales
 
