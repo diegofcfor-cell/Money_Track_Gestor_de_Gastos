@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('movimientos', function (Blueprint $table) {
-            $table->foreignId('meta_ahorro_id')->nullable()->constrained()->cascadeOnDelete()->after('subcategoria_id');
+            $table->foreignId('meta_ahorro_id')->nullable()->constrained('metas_ahorro')->cascadeOnDelete()->after('subcategoria_id');
         });
     }
 
