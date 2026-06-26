@@ -2,6 +2,16 @@
 
 Aplicación web para gestionar ingresos y egresos personales con categorías, subcategorías, gráficos interactivos y exportación a PDF.
 
+## Requisitos
+
+| Herramienta | Versión |
+|---|---|
+| PHP | 8.3+ |
+| Composer | última |
+| Node.js | 20+ |
+| npm | última |
+| MySQL | 8+ |
+
 ## Stack Tecnológico
 
 | Capa | Tecnología |
