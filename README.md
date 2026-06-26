@@ -61,16 +61,25 @@ npm install && npm run build
 
 # Configurar BD
 cp .env.example .env
-# Editar .env con credenciales de MySQL
+# Editar .env con credenciales de MySQL (DB_DATABASE, DB_USERNAME, DB_PASSWORD)
 
-# Migrar
+# Crear la base de datos en MySQL
+mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS gestor_dinero"
+
+# Migrar y seedear con datos de ejemplo
 php artisan migrate
+
+# Cargar datos de ejemplo (Fernando Nieva, categorías, movimientos, etc.)
+php artisan db:seed
 
 # Iniciar servidor
 php artisan serve
 ```
 
-Acceder a `http://127.0.0.1:8000` y registrar un usuario nuevo.
+Acceder a `http://127.0.0.1:8000` e iniciar sesión con:
+
+- **Email:** nieva.cronos@gmail.com
+- **Password:** (consultar al administrador)
 
 ## Rutas principales
 
