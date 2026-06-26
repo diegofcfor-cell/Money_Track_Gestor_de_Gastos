@@ -111,7 +111,7 @@
                 </div>
                 <div>
                     <div class="text-sm font-medium text-white">{{ Auth::user()->name }}</div>
-                    <div class="text-xs text-gray-400">{{ Auth::user()->email }}</div>
+                  <div class="text-xs text-gray-400">{{ Auth::user()->email }}</div>
                 </div>
             </div>
             <div class="mt-3 space-y-1">

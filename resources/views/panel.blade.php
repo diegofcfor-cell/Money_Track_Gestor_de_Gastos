@@ -3,7 +3,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
                 <h1 class="text-2xl font-bold text-gray-900">Panel de Control</h1>
-                <p class="text-sm text-gray-500 mt-1">{{ Auth::user()->email }}</p>
+                <p class="text-sm text-gray-500 mt-1">{{ Auth::user()->name  }}</p>
             </div>
             <div class="flex items-center gap-3">
                 <a href="{{ route('movimientos.create') }}" class="btn-success">
