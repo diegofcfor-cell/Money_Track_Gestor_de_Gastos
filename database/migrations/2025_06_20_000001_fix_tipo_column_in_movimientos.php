@@ -9,11 +9,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        DB::statement("ALTER TABLE movimientos MODIFY COLUMN tipo VARCHAR(20)");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE movimientos MODIFY COLUMN tipo VARCHAR(20)");
+        }
     }
 
     public function down(): void
     {
-        DB::statement("ALTER TABLE movimientos MODIFY COLUMN tipo VARCHAR(255)");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE movimientos MODIFY COLUMN tipo VARCHAR(255)");
+        }
     }
 };

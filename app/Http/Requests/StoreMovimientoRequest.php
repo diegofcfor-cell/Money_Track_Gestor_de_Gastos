@@ -19,7 +19,7 @@ class StoreMovimientoRequest extends FormRequest
             'fecha'           => 'required|date',
             'categoria_id'    => 'nullable|required_unless:tipo,ahorro|exists:categorias,id',
             'subcategoria_id' => 'nullable|exists:subcategorias,id',
-            'meta_ahorro_id'  => 'nullable|exists:metas_ahorro,id',
+            'meta_ahorro_id'  => 'required_if:tipo,ahorro|exists:metas_ahorro,id',
         ];
     }
 }

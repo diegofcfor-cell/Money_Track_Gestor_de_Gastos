@@ -11,15 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('categorias', function (Blueprint $table) {
-            $table->dropColumn('tipo');
-        });
+        if (Schema::hasColumn('categorias', 'tipo')) {
+            Schema::table('categorias', function (Blueprint $table) {
+                $table->dropColumn('tipo');
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('categorias', function (Blueprint $table) {
-            $table->enum('tipo', ['ingreso', 'egreso'])->nullable();
-        });
+        if (!Schema::hasColumn('categorias', 'tipo')) {
+            Schema::table('categorias', function (Blueprint $table) {
+                $table->enum('tipo', ['ingreso', 'egreso'])->nullable();
+            });
+        }
     }
 };

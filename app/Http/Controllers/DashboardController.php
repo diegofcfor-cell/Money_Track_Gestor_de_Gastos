@@ -37,7 +37,7 @@ class DashboardController extends Controller
 
         $promedioGastoMensual = (clone $query)
             ->where('tipo', 'egreso')
-            ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes, SUM(monto) total'))
+            ->select(DB::raw("CAST(strftime('%Y', fecha) AS INTEGER) año, CAST(strftime('%m', fecha) AS INTEGER) mes, SUM(monto) total"))
             ->groupBy('año', 'mes')
             ->get()
             ->avg('total') ?? 0;
@@ -58,7 +58,7 @@ class DashboardController extends Controller
             ->pluck('total', 'nombre');
 
         $mesesRaw = (clone $query)
-            ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes'))
+            ->select(DB::raw("CAST(strftime('%Y', fecha) AS INTEGER) año, CAST(strftime('%m', fecha) AS INTEGER) mes"))
             ->groupBy('año', 'mes')
             ->orderBy('año')
             ->orderBy('mes')
@@ -68,14 +68,14 @@ class DashboardController extends Controller
 
         $ingresosPorMes = (clone $query)
             ->where('tipo', 'ingreso')
-            ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes, SUM(monto) total'))
+            ->select(DB::raw("CAST(strftime('%Y', fecha) AS INTEGER) año, CAST(strftime('%m', fecha) AS INTEGER) mes, SUM(monto) total"))
             ->groupBy('año', 'mes')
             ->get()
             ->keyBy(fn($r) => $r->año . '-' . $r->mes);
 
         $egresosPorMes = (clone $query)
             ->where('tipo', 'egreso')
-            ->select(DB::raw('YEAR(fecha) año, MONTH(fecha) mes, SUM(monto) total'))
+            ->select(DB::raw("CAST(strftime('%Y', fecha) AS INTEGER) año, CAST(strftime('%m', fecha) AS INTEGER) mes, SUM(monto) total"))
             ->groupBy('año', 'mes')
             ->get()
             ->keyBy(fn($r) => $r->año . '-' . $r->mes);

@@ -9,11 +9,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        DB::statement('ALTER TABLE movimientos MODIFY COLUMN categoria_id BIGINT(20) UNSIGNED NULL');
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE movimientos MODIFY COLUMN categoria_id BIGINT(20) UNSIGNED NULL');
+        }
     }
 
     public function down(): void
     {
-        DB::statement('ALTER TABLE movimientos MODIFY COLUMN categoria_id BIGINT(20) UNSIGNED NOT NULL');
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE movimientos MODIFY COLUMN categoria_id BIGINT(20) UNSIGNED NOT NULL');
+        }
     }
 };
